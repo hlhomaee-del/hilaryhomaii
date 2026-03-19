@@ -1,921 +1,122 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ICD-10 Interactive Learning Tool</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site not available</title>
+    <style>
+      :root {
+        --colorRgbFacetsTeal600: 2 128 125;
+        --colorTealAction: var(--colorRgbFacetsTeal600);
+        --colorRgbFacetsNeutralLight200: 233 235 237;
+        --colorHr: var(--colorRgbFacetsNeutralLight200);
+        --colorRgbFacetsNeutralLight700: 53 58 62;
+        --colorGrayDarkest: var(--colorRgbFacetsNeutralLight700);
+        --colorGrayLighter: var(--colorRgbFacetsNeutralLight200);
+        --colorText: var(--colorGrayDarkest);
+        --effectShadowLightShallow: 0 1px 10px 0 rgb(53 58 62 / 6%),
+          0 2px 4px 0 rgb(53 58 62 / 8%);
+        --colorRgbFacetsNeutralDark900: 6 11 16;
+      }
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+          "Segoe UI Emoji", "Segoe UI Symbol";
+        background: white;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        line-height: 1.5;
+        color: rgb(var(--colorText));
+      }
 
-  :root {
-    --bg: #F7F5F0;
-    --surface: #FFFFFF;
-    --surface2: #F2EFE9;
-    --border: rgba(60,55,40,0.12);
-    --border-md: rgba(60,55,40,0.22);
-    --text: #1A1814;
-    --text-2: #5C5750;
-    --text-3: #96918A;
-    --blue: #1A5FA8;
-    --blue-bg: #EAF1FB;
-    --blue-text: #0B3D7A;
-    --green: #1A7A50;
-    --green-bg: #E6F4ED;
-    --green-text: #0E5235;
-    --amber: #A06010;
-    --amber-bg: #FDF3E3;
-    --amber-text: #6B3F08;
-    --red: #B83232;
-    --red-bg: #FDEAEA;
-    --red-text: #7A1A1A;
-    --purple: #5540C0;
-    --purple-bg: #EFECFD;
-    --purple-text: #352888;
-    --mono: 'DM Mono', monospace;
-    --serif: 'Literata', Georgia, serif;
-    --radius: 10px;
-    --radius-sm: 6px;
-  }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: rgb(var(--colorRgbFacetsNeutralDark900));
+        }
+      }
 
-  body {
-    font-family: var(--serif);
-    background: var(--bg);
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.7;
-    min-height: 100vh;
-  }
+      h1 {
+        margin: 0;
+        font-size: 1.375rem;
+        line-height: 1;
+      }
 
-  /* ── HEADER ─────────────────────────────────────── */
-  header {
-    background: var(--text);
-    color: #F7F5F0;
-    padding: 2rem 2rem 1.75rem;
-    border-bottom: 3px solid var(--blue);
-  }
-  header .eyebrow {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: rgba(247,245,240,.5);
-    margin-bottom: .4rem;
-  }
-  header h1 {
-    font-size: clamp(22px, 4vw, 32px);
-    font-weight: 500;
-    letter-spacing: -.01em;
-    line-height: 1.2;
-  }
-  header p {
-    font-size: 14px;
-    color: rgba(247,245,240,.6);
-    margin-top: .4rem;
-    font-style: italic;
-  }
+      h1 + p {
+        margin-top: 8px;
+      }
 
-  /* ── LAYOUT ──────────────────────────────────────── */
-  main { max-width: 820px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
-  section { margin-bottom: 2.5rem; }
-  .section-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    color: var(--text-3);
-    margin-bottom: .6rem;
-  }
+      .main {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+      }
 
-  /* ── CARDS ───────────────────────────────────────── */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .card-body { padding: 1.25rem 1.5rem; }
-  .card-title {
-    font-size: 17px;
-    font-weight: 500;
-    margin-bottom: .4rem;
-  }
+      .card {
+        position: relative;
+        width: 75%;
+        max-width: 364px;
+        padding: 24px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: var(--effectShadowLightShallow);
+        border: 1px solid rgb(var(--colorGrayLighter));
+      }
 
-  /* ── PROGRESS DOTS ───────────────────────────────── */
-  .progress-bar { display: flex; gap: 5px; margin-bottom: 1.25rem; }
-  .step-dot {
-    flex: 1; height: 4px; border-radius: 2px;
-    background: var(--border-md); cursor: pointer;
-    transition: background .25s;
-  }
-  .step-dot.active { background: var(--blue); }
-  .step-dot.done { background: var(--green); }
+      a {
+        margin: 0;
+        font-weight: 600;
+        color: rgb(var(--colorTealAction));
+        text-decoration-skip-ink: all;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 2px;
+        text-decoration-color: rgb(var(--colorTealAction) / 0.5);
+        transition: text-decoration-color 0.15s ease-in-out;
+      }
 
-  /* ── STEP LABEL ──────────────────────────────────── */
-  .step-label {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; color: var(--text-2); margin-bottom: .85rem;
-  }
-  .step-icon {
-    width: 26px; height: 26px; border-radius: 50%;
-    background: var(--blue-bg); color: var(--blue-text);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; flex-shrink: 0;
-  }
+      a:hover,
+      a:focus-visible {
+        text-decoration-color: rgb(var(--colorTealAction));
+      }
 
-  /* ── BUTTONS ─────────────────────────────────────── */
-  button {
-    font-family: var(--serif);
-    font-size: 14px;
-    padding: 8px 18px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-md);
-    background: transparent;
-    color: var(--text);
-    cursor: pointer;
-    transition: background .15s, transform .1s;
-  }
-  button:hover { background: var(--surface2); }
-  button:active { transform: scale(.98); }
-  button.primary {
-    background: var(--blue); color: #fff; border-color: var(--blue);
-  }
-  button.primary:hover { background: var(--blue-text); }
-  .nav { display: flex; gap: 10px; margin-top: 1rem; align-items: center; }
+      p:last-of-type {
+        margin-bottom: 0;
+      }
 
-  /* ── BADGES ──────────────────────────────────────── */
-  .badge {
-    display: inline-block; font-size: 11px; font-weight: 500;
-    font-family: var(--mono); padding: 3px 9px;
-    border-radius: 20px; letter-spacing: .03em;
-  }
-  .badge-blue { background: var(--blue-bg); color: var(--blue-text); }
-  .badge-green { background: var(--green-bg); color: var(--green-text); }
-  .badge-amber { background: var(--amber-bg); color: var(--amber-text); }
-  .badge-purple { background: var(--purple-bg); color: var(--purple-text); }
-  .badge-red { background: var(--red-bg); color: var(--red-text); }
-  .badge-gray { background: var(--surface2); color: var(--text-2); }
+      hr {
+        border: 0;
+        height: 1px;
+        background: rgb(var(--colorHr));
+        margin-top: 16px;
+        margin-bottom: 16px;
+      }
 
-  /* ── NOTE BOXES ──────────────────────────────────── */
-  .note-box {
-    border-radius: var(--radius-sm);
-    padding: .55rem .9rem;
-    font-size: 13px;
-    margin: .5rem 0;
-    line-height: 1.5;
-  }
-  .note-box.includes { background: var(--green-bg); border-left: 3px solid var(--green); color: var(--green-text); }
-  .note-box.excludes1 { background: var(--red-bg); border-left: 3px solid var(--red); color: var(--red-text); }
-  .note-box.useadd { background: var(--blue-bg); border-left: 3px solid var(--blue); color: var(--blue-text); }
-  .note-box.codefirst { background: var(--purple-bg); border-left: 3px solid var(--purple); color: var(--purple-text); }
-  .note-box.tip { background: var(--amber-bg); border-left: 3px solid var(--amber); color: var(--amber-text); }
-
-  /* ── HIGHLIGHT ROWS ──────────────────────────────── */
-  .hl-amber { background: var(--amber-bg); border-left: 3px solid var(--amber); padding-left: 8px; margin-left: -8px; }
-  .hl-blue { background: var(--blue-bg); border-left: 3px solid var(--blue); padding-left: 8px; margin-left: -8px; }
-
-  /* ── INDEX PAGE ──────────────────────────────────── */
-  .index-main { font-weight: 500; font-size: 15px; margin: .5rem 0 .25rem; }
-  .sub1 { padding-left: 1.5rem; font-size: 13.5px; color: var(--text-2); }
-  .sub2 { padding-left: 3rem; font-size: 13.5px; color: var(--text-2); }
-  .code-ref { font-family: var(--mono); color: var(--blue); font-weight: 500; font-size: 13px; }
-  .see-ref { font-style: italic; color: var(--text-3); font-size: 13px; }
-
-  /* ── TABULAR LIST ────────────────────────────────── */
-  .code-row { display: flex; align-items: baseline; gap: 10px; padding: 3px 0; }
-  .code-row .cod { font-family: var(--mono); font-size: 13.5px; font-weight: 500; color: var(--blue); min-width: 72px; }
-  .code-row.selected { background: var(--blue-bg); border-left: 3px solid var(--blue); padding-left: 8px; margin-left: -8px; border-radius: 0; }
-
-  /* ── CODE ANATOMY ────────────────────────────────── */
-  .code-display {
-    font-family: var(--mono); font-size: 26px; font-weight: 500;
-    letter-spacing: .1em; padding: .6rem 1.2rem;
-    background: var(--surface2); border-radius: var(--radius-sm);
-    display: inline-block; margin: .75rem 0;
-    border: 1px solid var(--border);
-  }
-  .code-breakdown { display: flex; gap: 4px; margin: .5rem 0 1rem; flex-wrap: wrap; }
-  .code-part { text-align: center; }
-  .code-char {
-    font-family: var(--mono); font-size: 20px; font-weight: 500;
-    width: 34px; height: 38px; display: flex;
-    align-items: center; justify-content: center; border-radius: 6px;
-  }
-  .code-char-label { font-size: 10px; margin-top: 3px; font-weight: 500; font-family: var(--mono); }
-  .char-cat { background: var(--blue-bg); color: var(--blue-text); }
-  .char-etio { background: var(--purple-bg); color: var(--purple-text); }
-  .char-body { background: var(--green-bg); color: var(--green-text); }
-  .char-sev { background: var(--amber-bg); color: var(--amber-text); }
-  .char-ext { background: var(--red-bg); color: var(--red-text); }
-  .char-dot { background: var(--surface2); color: var(--text-3); }
-
-  /* ── QUIZ ────────────────────────────────────────── */
-  .quiz-option {
-    width: 100%; text-align: left; margin-bottom: 7px;
-    padding: 10px 14px; font-family: var(--serif);
-    font-size: 14px; border-radius: var(--radius-sm);
-    border: 1px solid var(--border-md);
-    background: transparent; color: var(--text);
-    cursor: pointer; transition: background .15s, border-color .15s;
-    line-height: 1.5;
-  }
-  .quiz-option:hover:not(:disabled) { background: var(--surface2); }
-  .quiz-option.correct { border-color: var(--green); background: var(--green-bg); color: var(--green-text); }
-  .quiz-option.wrong { border-color: var(--red); background: var(--red-bg); color: var(--red-text); }
-  .feedback {
-    font-size: 13.5px; padding: 9px 13px;
-    border-radius: var(--radius-sm); margin-top: 8px; line-height: 1.55;
-  }
-  .feedback.correct { background: var(--green-bg); color: var(--green-text); }
-  .feedback.wrong { background: var(--red-bg); color: var(--red-text); }
-
-  /* ── DRAG DROP ───────────────────────────────────── */
-  .drag-zone {
-    min-height: 46px; border: 1.5px dashed var(--border-md);
-    border-radius: var(--radius-sm); display: flex;
-    align-items: center; flex: 1; padding: 6px 10px;
-    gap: 6px; flex-wrap: wrap; transition: border-color .2s, background .2s;
-  }
-  .drag-zone.over { border-color: var(--blue); background: var(--blue-bg); }
-  .drag-tile {
-    font-family: var(--mono); font-size: 12.5px; font-weight: 500;
-    padding: 5px 11px; border-radius: var(--radius-sm);
-    cursor: grab; user-select: none;
-    border: 1px solid var(--border-md);
-    background: var(--surface); color: var(--text);
-    transition: transform .1s; line-height: 1.4;
-  }
-  .drag-tile:active { cursor: grabbing; transform: scale(1.04); }
-  .drop-row { display: flex; align-items: center; gap: 10px; margin: 5px 0; }
-  .drop-label {
-    min-width: 64px; font-family: var(--mono); font-size: 11px;
-    background: var(--blue-bg); color: var(--blue-text);
-    border-radius: var(--radius-sm); padding: 4px 8px;
-    text-align: center; font-weight: 500;
-  }
-
-  /* ── STEPS LIST ──────────────────────────────────── */
-  .steps-list { list-style: none; counter-reset: steps; }
-  .steps-list li {
-    counter-increment: steps; display: flex;
-    gap: 12px; margin-bottom: .9rem;
-    font-size: 14.5px; color: var(--text-2); line-height: 1.6;
-  }
-  .steps-list li::before {
-    content: counter(steps);
-    min-width: 24px; height: 24px; border-radius: 50%;
-    background: var(--blue-bg); color: var(--blue-text);
-    font-size: 12px; font-weight: 500; font-family: var(--mono);
-    display: flex; align-items: center; justify-content: center;
-    margin-top: 2px; flex-shrink: 0;
-  }
-
-  /* ── BOOK TABS ───────────────────────────────────── */
-  .tab-row { display: flex; gap: 0; }
-  .tab-btn {
-    flex: 1; padding: 9px 6px; font-family: var(--mono);
-    font-size: 12px; border: 1px solid var(--border-md);
-    background: var(--surface2); color: var(--text-2);
-    cursor: pointer; transition: background .15s;
-    border-radius: 0; letter-spacing: .02em;
-  }
-  .tab-btn:first-child { border-radius: var(--radius-sm) 0 0 0; }
-  .tab-btn:last-child { border-radius: 0 var(--radius-sm) 0 0; }
-  .tab-btn.active {
-    background: var(--surface); color: var(--text);
-    border-bottom-color: var(--surface); font-weight: 500;
-  }
-  .book-wrap {
-    border: 1px solid var(--border-md);
-    border-top: none;
-    border-radius: 0 0 var(--radius) var(--radius);
-    background: var(--surface);
-  }
-  .page-header {
-    font-family: var(--mono); font-size: 11px; font-weight: 500;
-    color: var(--text-3); letter-spacing: .07em; text-transform: uppercase;
-    padding: 8px 1.25rem; background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-  }
-  .page { padding: 1rem 1.25rem; }
-
-  /* ── WALKTHROUGH STEPS ───────────────────────────── */
-  .walk-step {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm); margin-bottom: .65rem; overflow: hidden;
-  }
-  .walk-step-header {
-    padding: .5rem .9rem; background: var(--surface2);
-    font-size: 12.5px; font-weight: 500; color: var(--text-2);
-    display: flex; align-items: center; gap: 8px;
-    font-family: var(--mono);
-  }
-  .walk-step-body { padding: .65rem .9rem; font-size: 13.5px; }
-  .num-circle {
-    width: 22px; height: 22px; border-radius: 50%;
-    display: inline-flex; align-items: center;
-    justify-content: center; font-size: 11px; font-weight: 500;
-    flex-shrink: 0; font-family: var(--mono);
-  }
-  .nc-blue { background: var(--blue-bg); color: var(--blue-text); }
-  .nc-amber { background: var(--amber-bg); color: var(--amber-text); }
-  .nc-green { background: var(--green-bg); color: var(--green-text); }
-
-  /* ── BOOK GRAPHIC ────────────────────────────────── */
-  .book-graphic { display: flex; gap: 10px; align-items: stretch; margin: 1rem 0; }
-  .book-section {
-    flex: 1; border-radius: var(--radius-sm);
-    padding: .75rem; text-align: center;
-  }
-  .book-section .sec-icon { font-size: 22px; margin-bottom: 4px; }
-  .book-section .sec-label { font-size: 13px; font-weight: 500; }
-  .book-section .sec-desc { font-size: 11.5px; margin-top: 3px; opacity: .8; }
-
-  /* ── SCORE ───────────────────────────────────────── */
-  .score-ring { font-size: 42px; font-weight: 500; text-align: center; color: var(--blue); margin: .5rem 0; font-family: var(--mono); }
-  .score-stars { font-size: 28px; text-align: center; margin: .5rem 0; }
-
-  /* ── DIVIDER ─────────────────────────────────────── */
-  .divider { border: none; border-top: 1px solid var(--border); margin: .65rem 0; }
-
-  /* ── HIGHLIGHT BOX ───────────────────────────────── */
-  .highlight-box {
-    border-left: 3px solid var(--blue);
-    padding: .5rem 1rem; background: var(--surface2);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    margin: .75rem 0; font-size: 14px; color: var(--text-2);
-    font-style: italic;
-  }
-
-  /* ── SECTION DIVIDER ─────────────────────────────── */
-  .section-divider {
-    text-align: center; position: relative; margin: 2.5rem 0 2rem;
-  }
-  .section-divider::before {
-    content: ''; position: absolute; top: 50%; left: 0; right: 0;
-    height: 1px; background: var(--border-md);
-  }
-  .section-divider span {
-    position: relative; background: var(--bg);
-    padding: 0 1rem; font-family: var(--mono);
-    font-size: 12px; color: var(--text-3); letter-spacing: .08em;
-    text-transform: uppercase;
-  }
-
-  /* ── RESPONSIVE ──────────────────────────────────── */
-  @media (max-width: 520px) {
-    .book-graphic { flex-direction: column; }
-    .tab-btn { font-size: 11px; padding: 8px 4px; }
-    header { padding: 1.5rem 1.25rem; }
-    .code-display { font-size: 20px; }
-  }
-</style>
-</head>
-<body>
-
-<header>
-  <div class="eyebrow">Medical Coding Education</div>
-  <h1>ICD-10 Interactive Learning Tool</h1>
-  <p>Step-by-step training for diagnosis coding — Alphabetic Index &amp; Tabular List</p>
-</header>
-
-<main>
-
-  <!-- ══ PART 1: STEP-BY-STEP GUIDE ════════════════════ -->
-  <section>
-    <div class="section-label">Part 1 — Core concepts &amp; activities</div>
-    <div class="card">
-      <div class="card-body">
-        <div class="progress-bar" id="prog1"></div>
-        <div class="step-label" id="step-label1"></div>
-        <div id="step-content1"></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"><span>Book simulation</span></div>
-
-  <!-- ══ PART 2: BOOK SIMULATION ════════════════════════ -->
-  <section>
-    <div class="section-label">Part 2 — See exactly how the book looks</div>
-    <div class="tab-row">
-      <button class="tab-btn active" id="tab-idx" onclick="showTab('idx')">Vol 2 — Alphabetic index</button>
-      <button class="tab-btn" id="tab-tab" onclick="showTab('tab')">Vol 1 — Tabular list</button>
-      <button class="tab-btn" id="tab-walk" onclick="showTab('walk')">Full walkthrough</button>
-    </div>
-    <div class="book-wrap">
-      <div id="pane-idx"></div>
-      <div id="pane-tab" style="display:none"></div>
-      <div id="pane-walk" style="display:none"></div>
-    </div>
-  </section>
-
-</main>
-
-<script>
-/* ══════════════════════════════════════════════════════
-   PART 1 — STEP-BY-STEP INTERACTIVE GUIDE
-══════════════════════════════════════════════════════ */
-const STEPS = [
-  { label: 'What is ICD-10?',      icon: '📘' },
-  { label: 'The two volumes',      icon: '📚' },
-  { label: 'Anatomy of a code',    icon: '🔍' },
-  { label: 'Alphabetic index',     icon: '🔤' },
-  { label: 'Tabular list',         icon: '📋' },
-  { label: 'Build a code',         icon: '🛠' },
-  { label: 'Sort the steps',       icon: '🎯' },
-  { label: 'Quick quiz',           icon: '✏' },
-  { label: 'Practice case',        icon: '🩺' },
-  { label: 'You did it!',          icon: '🏆' },
-];
-
-let current = 0;
-let quizAnswered = Array(4).fill(null);
-let practiceAnswered = false;
-
-const CORRECT_ORDER = [
-  'Identify the main term',
-  'Look in Alphabetic index',
-  'Check cross-references',
-  'Find code in Tabular list',
-  'Verify all characters',
-  'Assign the final code',
-];
-let dragOrder = shuffle([...CORRECT_ORDER]);
-
-const QUIZ = [
-  {
-    q: 'Which volume do you consult FIRST when looking up a diagnosis?',
-    opts: ['Tabular list (Vol 1)','Alphabetic index (Vol 2)','Vol 3 — procedure codes','The ICD-9 book'],
-    ans: 1,
-    exp: 'Always start with the Alphabetic index to find candidate codes, then verify in the Tabular list. Never code directly from the index!'
-  },
-  {
-    q: 'In the code J18.9, what does the letter "J" represent?',
-    opts: ['Severity','Body system / chapter','Extension character','Etiology'],
-    ans: 1,
-    exp: '"J" is the category letter — it tells you the body system. J = Diseases of the respiratory system.'
-  },
-  {
-    q: 'A code shows "7th character required." What happens if you omit it?',
-    opts: ['The claim processes normally','It defaults to "A" automatically','The claim is invalid / rejected','The coder may leave it blank'],
-    ans: 2,
-    exp: 'If a 7th character is required, it must be present. Claims missing required characters will be rejected by payers.'
-  },
-  {
-    q: 'What does Excludes1 mean in the Tabular list?',
-    opts: ['Code both conditions together','The two codes can never be coded together','Code the secondary condition only','It is an optional exclusion note'],
-    ans: 1,
-    exp: 'Excludes1 means the two conditions cannot be coded together on the same claim — they are mutually exclusive by definition.'
-  },
-];
-
-function shuffle(arr) { return arr.sort(() => Math.random() - .5); }
-
-function renderPart1() {
-  const prog = document.getElementById('prog1');
-  prog.innerHTML = STEPS.map((s, i) =>
-    `<div class="step-dot ${i < current ? 'done' : i === current ? 'active' : ''}"
-      onclick="goTo(${i})" title="${s.label}" style="cursor:pointer"></div>`
-  ).join('');
-
-  const lbl = document.getElementById('step-label1');
-  lbl.innerHTML = `<span class="step-icon">${STEPS[current].icon}</span>
-    <span>Step ${current + 1} of ${STEPS.length} — <strong>${STEPS[current].label}</strong></span>`;
-
-  const content = document.getElementById('step-content1');
-  content.innerHTML = buildStepContent(current);
-  attachDragEvents();
-}
-
-function buildStepContent(idx) {
-  const id = STEPS[idx].label;
-  let body = '';
-  let nav = '';
-
-  const backBtn = idx > 0 ? `<button onclick="goTo(${idx-1})">← Back</button>` : '';
-  const nextBtn = `<button class="primary" onclick="goTo(${idx+1})" style="margin-left:auto">Next step →</button>`;
-
-  if (id === 'What is ICD-10?') {
-    body = `
-      <p style="margin-bottom:.75rem">ICD-10 stands for the <strong>International Classification of Diseases, 10th Revision</strong>. It's the universal language coders use to translate medical diagnoses into alphanumeric codes that insurers, hospitals, and governments understand.</p>
-      <div class="book-graphic">
-        <div class="book-section" style="background:var(--blue-bg);color:var(--blue-text)">
-          <div class="sec-icon">📋</div>
-          <div class="sec-label">Diagnoses</div>
-          <div class="sec-desc">ICD-10-CM<br>(Clinical Modification)</div>
-        </div>
-        <div class="book-section" style="background:var(--purple-bg);color:var(--purple-text)">
-          <div class="sec-icon">🔧</div>
-          <div class="sec-label">Procedures</div>
-          <div class="sec-desc">ICD-10-PCS<br>(Proc. Coding Sys.)</div>
-        </div>
-        <div class="book-section" style="background:var(--green-bg);color:var(--green-text)">
-          <div class="sec-icon">🌍</div>
-          <div class="sec-label">Used in</div>
-          <div class="sec-desc">30+ countries<br>US adopted 2015</div>
-        </div>
-      </div>
-      <div class="highlight-box">Think of ICD-10 as a <em>universal translator</em> — every disease, injury, or condition has its own unique address code.</div>`;
-    nav = `<div class="nav">${backBtn}${nextBtn}</div>`;
-  }
-
-  else if (id === 'The two volumes') {
-    body = `
-      <p style="margin-bottom:1rem">The ICD-10-CM book has two major sections you'll flip between every time you code.</p>
-      <div class="card" style="margin-bottom:.75rem;border-left:3px solid var(--blue);border-radius:0 var(--radius-sm) var(--radius-sm) 0">
-        <div class="card-body" style="padding:.85rem 1rem">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span class="badge badge-blue">Volume 1</span>
-            <strong>Tabular List</strong>
-          </div>
-          <p style="font-size:13.5px;color:var(--text-2)">Codes arranged <strong>numerically</strong> by category (A00–Z99). Contains instructional notes, includes/excludes, and code extensions. <em>Never code from here first!</em></p>
-        </div>
-      </div>
-      <div class="card" style="border-left:3px solid var(--purple);border-radius:0 var(--radius-sm) var(--radius-sm) 0">
-        <div class="card-body" style="padding:.85rem 1rem">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
-            <span class="badge badge-purple">Volume 2</span>
-            <strong>Alphabetic Index</strong>
-          </div>
-          <p style="font-size:13.5px;color:var(--text-2)">Conditions listed <strong>alphabetically</strong> by main term. Your starting point every time. Gives candidate codes to verify in the Tabular List.</p>
-        </div>
-      </div>
-      <div class="highlight-box" style="margin-top:.75rem">Golden rule: <strong>Always start in the Index, always verify in the Tabular.</strong></div>`;
-    nav = `<div class="nav">${backBtn}${nextBtn}</div>`;
-  }
-
-  else if (id === 'Anatomy of a code') {
-    body = `
-      <p style="margin-bottom:.75rem">Every code follows a predictable structure. Let's dissect <strong>S52.501A</strong> — a displaced fracture of the radius.</p>
-      <div class="code-display">S52.501A</div>
-      <div class="code-breakdown">
-        ${[
-          {ch:'S',cls:'char-cat',lbl:'Category'},
-          {ch:'5',cls:'char-etio',lbl:'Etiology'},
-          {ch:'2',cls:'char-etio',lbl:''},
-          {ch:'.',cls:'char-dot',lbl:'Dot'},
-          {ch:'5',cls:'char-body',lbl:'Body site'},
-          {ch:'0',cls:'char-body',lbl:''},
-          {ch:'1',cls:'char-sev',lbl:'Laterality'},
-          {ch:'A',cls:'char-ext',lbl:'7th char'},
-        ].map(c=>`
-          <div class="code-part">
-            <div class="code-char ${c.cls}">${c.ch}</div>
-            <div class="code-char-label ${c.cls.replace('char','char')} " style="font-size:9.5px;margin-top:3px;color:var(--text-3)">${c.lbl}</div>
-          </div>`).join('')}
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:.5rem">
-        <span class="badge badge-blue" style="padding:6px 10px;border-radius:var(--radius-sm)">S = Injuries chapter</span>
-        <span class="badge badge-purple" style="padding:6px 10px;border-radius:var(--radius-sm)">52 = Radius fracture</span>
-        <span class="badge badge-green" style="padding:6px 10px;border-radius:var(--radius-sm)">.501 = site + type</span>
-        <span class="badge badge-red" style="padding:6px 10px;border-radius:var(--radius-sm)">A = initial encounter</span>
-      </div>
-      <div class="highlight-box" style="margin-top:.75rem">The 7th character extension is critical for injury codes: <strong>A</strong> = initial, <strong>D</strong> = subsequent, <strong>S</strong> = sequela.</div>`;
-    nav = `<div class="nav">${backBtn}${nextBtn}</div>`;
-  }
-
-  else if (id === 'Alphabetic index') {
-    body = `
-      <p style="margin-bottom:.75rem">The index is organised around <strong>main terms</strong> — usually the condition or disease, not the body part.</p>
+      .your-site {
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
       <div class="card">
-        <div class="card-body">
-          <ul class="steps-list">
-            <li><strong>Main term</strong> — bold, flush left. E.g. "Pneumonia" not "Lung, infection of."</li>
-            <li><strong>Subterms</strong> — indented below. Narrow the condition. E.g. "— bacterial", "— viral."</li>
-            <li><strong>Sub-subterms</strong> — indented further. E.g. "— — due to Klebsiella."</li>
-            <li><strong>See / see also</strong> — cross-references directing you to another main term.</li>
-          </ul>
-        </div>
+        <h1>Site not available</h1>
+        <p>
+          This site was paused as it reached its usage limits. Please contact the site owner for more information.
+        </p>
+        <hr />
+        <p class="your-site">
+          If this is your site, please visit Netlify’s
+          <a href="https://docs.netlify.com/manage/accounts-and-billing/billing/resume-paused-projects/"
+            >Billing docs page</a
+          >
+          or log into your Netlify account to upgrade your plan.
+        </p>
       </div>
-      <div class="note-box tip">
-        <strong>Example lookup:</strong> Patient has "Type 2 diabetes with diabetic polyneuropathy."<br>
-        → Look up <em>Diabetes</em> → subterm <em>type 2</em> → sub-subterm <em>with polyneuropathy</em> → candidate code E11.40
-      </div>`;
-    nav = `<div class="nav">${backBtn}${nextBtn}</div>`;
-  }
-
-  else if (id === 'Tabular list') {
-    body = `
-      <p style="margin-bottom:.75rem">Once you have a candidate code from the index, open the Tabular list and read <em>everything</em> before you finalise.</p>
-      <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:.75rem">
-        <div class="card"><div class="card-body" style="padding:.7rem 1rem">
-          <span class="badge badge-blue" style="margin-bottom:4px">Chapter level</span>
-          <p style="font-size:13.5px">E.g. Chapter 10: Diseases of the respiratory system (J00–J99)</p>
-        </div></div>
-        <div class="card"><div class="card-body" style="padding:.7rem 1rem">
-          <span class="badge badge-purple" style="margin-bottom:4px">Block / category notes</span>
-          <p style="font-size:13.5px">Includes / Excludes1 / Excludes2 notes. Read before coding the block.</p>
-        </div></div>
-        <div class="card"><div class="card-body" style="padding:.7rem 1rem">
-          <span class="badge badge-green" style="margin-bottom:4px">Code-level notes</span>
-          <p style="font-size:13.5px">Use additional code, Code first, Code also — mandatory instructions.</p>
-        </div></div>
-        <div class="card"><div class="card-body" style="padding:.7rem 1rem">
-          <span class="badge badge-amber" style="margin-bottom:4px">Extension requirements</span>
-          <p style="font-size:13.5px">Dashes or bullet symbols signal required additional characters (6th, 7th).</p>
-        </div></div>
-      </div>
-      <div class="highlight-box"><strong>Excludes1 vs Excludes2:</strong> Excludes1 = the two conditions can NEVER be coded together. Excludes2 = they can co-exist; code both if documented.</div>`;
-    nav = `<div class="nav">${backBtn}${nextBtn}</div>`;
-  }
-
-  else if (id === 'Build a code') {
-    body = `
-      <p style="margin-bottom:.75rem">Let's look up <strong>community-acquired pneumonia, unspecified organism</strong> together.</p>
-      <ul class="steps-list">
-        <li><strong>Identify the main term.</strong> The condition is "Pneumonia" — not "Lung."</li>
-        <li><strong>Open the Alphabetic index.</strong> Find <em>Pneumonia</em> (bold, flush left). Scan for community-acquired → <span style="font-family:var(--mono);color:var(--blue)">J18.9</span>.</li>
-        <li><strong>Cross-reference.</strong> No "See" or "See also" instruction. Proceed to Tabular.</li>
-        <li><strong>Open the Tabular list at J18.9.</strong> Read chapter notes (J00–J99), block notes (J09–J18), category J18 notes. No extra codes required here.</li>
-        <li><strong>Verify characters.</strong> J18.9 is a valid 5-character code. No dash requiring a 6th or 7th character.</li>
-        <li><strong>Assign the code.</strong> <span style="font-family:var(--mono);font-weight:500;color:var(--blue)">J18.9</span> — Pneumonia, unspecified organism. Done.</li>
-      </ul>`;
-    nav = `<div class="nav">${backBtn}${nextBtn}</div>`;
-  }
-
-  else if (id === 'Sort the steps') {
-    body = `
-      <p style="margin-bottom:1rem">Drag each tile into the correct order. What's the right sequence for ICD-10 coding?</p>
-      <div id="drag-tiles" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem;min-height:46px;padding:.5rem;background:var(--surface2);border-radius:var(--radius-sm);border:1px solid var(--border)">
-        ${dragOrder.map((t,i)=>`<div class="drag-tile" draggable="true" data-val="${t}" id="tile-${i}">${t}</div>`).join('')}
-      </div>
-      ${CORRECT_ORDER.map((_,i)=>`
-        <div class="drop-row">
-          <span class="drop-label">Step ${i+1}</span>
-          <div class="drag-zone" id="slot-${i}"
-            ondragover="event.preventDefault();this.classList.add('over')"
-            ondragleave="this.classList.remove('over')"
-            ondrop="dropOn(event,${i})">
-            <span id="slot-ph-${i}" style="font-size:12px;color:var(--text-3)">Drop here</span>
-          </div>
-        </div>`).join('')}
-      <div id="drag-feedback" style="margin-top:.5rem"></div>
-      <div class="nav" style="margin-top:.75rem">
-        ${backBtn}
-        <button onclick="checkDrag()">Check order</button>
-        <button onclick="resetDrag()">Reset</button>
-        <button class="primary" onclick="goTo(${idx+1})" style="margin-left:auto">Next →</button>
-      </div>`;
-  }
-
-  else if (id === 'Quick quiz') {
-    body = `
-      <p style="margin-bottom:1rem">Answer all 4 questions. Your score will show at the end.</p>
-      ${QUIZ.map((q,qi)=>{
-        const ans = quizAnswered[qi];
-        return `<div class="card" style="margin-bottom:.75rem"><div class="card-body" style="padding:.9rem 1rem">
-          <div style="font-size:12px;font-family:var(--mono);color:var(--text-3);margin-bottom:.4rem">Question ${qi+1}</div>
-          <p style="font-size:14.5px;font-weight:500;color:var(--text);margin-bottom:.65rem">${q.q}</p>
-          ${q.opts.map((o,oi)=>{
-            let cls='';
-            if(ans!==null){
-              if(oi===q.ans)cls='correct';
-              else if(oi===ans&&ans!==q.ans)cls='wrong';
-            }
-            return `<button class="quiz-option ${cls}" ${ans!==null?'disabled':''} onclick="answerQuiz(${qi},${oi})">${o}</button>`;
-          }).join('')}
-          ${ans!==null?`<div class="feedback ${ans===q.ans?'correct':'wrong'}">${ans===q.ans?'Correct! ':'Incorrect. '}${q.exp}</div>`:''}
-        </div></div>`;
-      }).join('')}`;
-    const allDone = quizAnswered.every(a=>a!==null);
-    nav = `<div class="nav">${backBtn}<button class="primary" onclick="goTo(${idx+1})" style="margin-left:auto" ${allDone?'':'disabled'}>Next →</button></div>`;
-  }
-
-  else if (id === 'Practice case') {
-    body = `
-      <div class="card" style="border-left:3px solid var(--green);border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-bottom:1rem">
-        <div class="card-body" style="padding:.85rem 1rem">
-          <div style="font-size:12px;font-family:var(--mono);color:var(--text-3);margin-bottom:.3rem">Clinical documentation</div>
-          <p style="color:var(--text)">A 68-year-old patient presents with a three-day history of productive cough, fever (38.9°C), and dyspnea. Chest X-ray confirms right lower lobe consolidation. Attending physician documents: <strong>"Lobar pneumonia, bacterial — right lower lobe."</strong></p>
-        </div>
-      </div>
-      <p style="margin-bottom:.75rem">What is the correct ICD-10-CM code?</p>
-      ${practiceAnswered ? `
-        <button class="quiz-option correct" disabled>J18.1 — Lobar pneumonia, unspecified organism ✓</button>
-        <div class="feedback correct">Excellent! Lobar pneumonia → Alphabetic index: <em>Pneumonia, lobar → J18.1</em>. Tabular verification confirms J18.1. Since no specific organism is documented, J18.1 is correct. A bacterial organism code (B96.xx) could be added if the specific bacterium were identified.</div>
-        <div class="nav" style="margin-top:.75rem">${backBtn}<button class="primary" onclick="goTo(${idx+1})" style="margin-left:auto">See results →</button></div>
-      ` : `
-        <button class="quiz-option" onclick="answerPractice('wrong')">J18.9 — Pneumonia, unspecified</button>
-        <button class="quiz-option" onclick="answerPractice('correct')">J18.1 — Lobar pneumonia, unspecified organism</button>
-        <button class="quiz-option" onclick="answerPractice('wrong')">J15.9 — Unspecified bacterial pneumonia</button>
-        <button class="quiz-option" onclick="answerPractice('wrong')">J22 — Unspecified acute lower respiratory infection</button>
-        <div class="nav" style="margin-top:.75rem">${backBtn}</div>
-      `}`;
-  }
-
-  else if (id === 'You did it!') {
-    const score = quizAnswered.filter((a,i)=>a===QUIZ[i].ans).length;
-    const pct = Math.round(score/QUIZ.length*100);
-    const stars = pct===100?'★★★★':pct>=75?'★★★☆':pct>=50?'★★☆☆':'★☆☆☆';
-    body = `
-      <div class="score-stars">${stars}</div>
-      <div class="score-ring">${score} / ${QUIZ.length}</div>
-      <p style="text-align:center;color:var(--text-2);margin-bottom:1rem">quiz questions correct</p>
-      <ul class="steps-list">
-        <li>Start in the <strong>Alphabetic index</strong> — never the Tabular list.</li>
-        <li>Verify every candidate code in the <strong>Tabular list</strong> — read all notes.</li>
-        <li>Main terms in the index are usually the <strong>condition</strong>, not the body part.</li>
-        <li>Read <strong>Excludes1 / Excludes2</strong> notes at every level.</li>
-        <li>Assign the <strong>most specific code</strong> supported by documentation.</li>
-        <li>Required 6th/7th characters are <strong>mandatory</strong> — never omit them.</li>
-      </ul>
-      <div class="nav" style="margin-top:1rem">${backBtn}
-        <button onclick="goTo(0)" style="margin-left:auto">Start over</button>
-      </div>`;
-  }
-
-  return `${body}${nav}`;
-}
-
-function goTo(i) {
-  if (i < 0 || i >= STEPS.length) return;
-  current = i;
-  renderPart1();
-}
-
-function answerQuiz(qi, oi) {
-  quizAnswered[qi] = oi;
-  renderPart1();
-}
-
-function answerPractice() {
-  practiceAnswered = true;
-  renderPart1();
-}
-
-/* ─── Drag & Drop ─── */
-function attachDragEvents() {
-  document.querySelectorAll('.drag-tile').forEach(tile => {
-    tile.addEventListener('dragstart', e => {
-      e.dataTransfer.setData('text/plain', tile.dataset.val);
-    });
-  });
-}
-
-function dropOn(ev, slotIdx) {
-  ev.preventDefault();
-  const val = ev.dataTransfer.getData('text/plain');
-  const slot = document.getElementById(`slot-${slotIdx}`);
-  slot.classList.remove('over');
-  const existing = document.querySelector(`.drag-tile[data-val="${val}"]`);
-  if (existing) existing.remove();
-  const prev = slot.querySelector('.drag-tile');
-  if (prev) document.getElementById('drag-tiles').appendChild(prev);
-  const ph = document.getElementById(`slot-ph-${slotIdx}`);
-  if (ph) ph.style.display = 'none';
-  const newTile = document.createElement('div');
-  newTile.className = 'drag-tile';
-  newTile.draggable = true;
-  newTile.dataset.val = val;
-  newTile.textContent = val;
-  newTile.addEventListener('dragstart', e => e.dataTransfer.setData('text/plain', val));
-  slot.appendChild(newTile);
-}
-
-function checkDrag() {
-  let correct = 0;
-  CORRECT_ORDER.forEach((step, i) => {
-    const tile = document.querySelector(`#slot-${i} .drag-tile`);
-    if (tile && tile.dataset.val === step) correct++;
-  });
-  const fb = document.getElementById('drag-feedback');
-  if (correct === CORRECT_ORDER.length) {
-    fb.innerHTML = `<div class="feedback correct">Perfect! All 6 steps in the correct order.</div>`;
-  } else {
-    fb.innerHTML = `<div class="feedback wrong">${correct} of 6 correct. Correct order: ${CORRECT_ORDER.map((s,i)=>`${i+1}. ${s}`).join(' → ')}</div>`;
-  }
-}
-
-function resetDrag() {
-  dragOrder = shuffle([...CORRECT_ORDER]);
-  renderPart1();
-}
-
-/* ══════════════════════════════════════════════════════
-   PART 2 — BOOK SIMULATION
-══════════════════════════════════════════════════════ */
-function buildIndexPane() {
-  return `
-    <div class="page-header">Alphabetic index · Section P · Page 342</div>
-    <div class="page">
-      <div style="margin-bottom:.4rem" class="index-main">Pleurisy</div>
-      <div class="sub1">— with effusion <span class="code-ref">J90</span></div>
-      <div class="sub1">— tuberculous <span class="see-ref">see Tuberculosis, pleural</span></div>
-      <div style="margin:.5rem 0 .4rem" class="index-main">Pleuritis <span class="see-ref">see Pleurisy</span></div>
-      <hr class="divider">
-      <div style="margin:.2rem 0 .4rem" class="index-main">Pneumonia (acute) (double) (migratory) (purulent) (septic) (unresolved)</div>
-      <div class="note-box includes" style="margin:.3rem 0 .5rem">Includes: bronchopneumonia NOS; hypostatic bronchopneumonia; lobar pneumonia</div>
-      <div class="note-box excludes1" style="margin:.3rem 0 .5rem">Excludes2: aspiration pneumonia (J69.0); ventilator-associated (J95.851)</div>
-      <div class="sub1">— adenoviral <span class="code-ref">J12.0</span></div>
-      <div class="sub1">— allergic (eosinophilic) <span class="code-ref">J82.89</span></div>
-      <div class="sub1">— aspiration <span class="see-ref">see Pneumonia, aspiration</span></div>
-      <div class="sub1">— bacterial NEC <span class="code-ref">J15.9</span></div>
-      <div class="sub1 hl-amber">— lobar (disseminated) (double) (interstitial) <span class="code-ref">J18.1</span></div>
-      <div class="sub2">— — bacterial <span class="code-ref">J18.1</span></div>
-      <div class="sub2">— — Streptococcal <span class="code-ref">J13</span></div>
-      <div class="sub2">— — Klebsiella <span class="code-ref">J15.0</span></div>
-      <div class="sub1">— community-acquired <span class="code-ref">J18.9</span></div>
-      <div class="sub1">— COVID-19 <span class="code-ref">U07.1</span></div>
-      <div class="sub1">— Klebsiella (pneumoniae) <span class="code-ref">J15.0</span></div>
-      <div class="sub1">— Mycoplasma (pneumoniae) <span class="code-ref">J15.7</span></div>
-      <div class="sub1">— organism, unspecified NEC <span class="code-ref">J18.9</span></div>
-      <div class="sub1">— Streptococcal NEC <span class="code-ref">J15.4</span></div>
-      <div class="sub1">— viral NEC <span class="code-ref">J12.9</span></div>
-      <hr class="divider">
-      <div style="margin:.2rem 0 .4rem" class="index-main">Pneumonitis <span class="see-ref">see also Pneumonia</span></div>
-      <div class="sub1">— aspiration <span class="code-ref">J68.0</span></div>
-      <div class="note-box tip" style="margin-top:1rem">
-        <strong>Coder's eye:</strong> Found "Pneumonia → lobar → bacterial" pointing to <span style="font-family:var(--mono);font-weight:500">J18.1</span>. Now verify this in the Tabular list before assigning it.
-      </div>
-    </div>`;
-}
-
-function buildTabularPane() {
-  return `
-    <div class="page-header">Tabular list · Chapter X: Diseases of the respiratory system (J00–J99) · Page 618</div>
-    <div class="page">
-      <div style="font-size:12px;color:var(--text-3);margin-bottom:.5rem;font-family:var(--mono)">Block J09–J18 · Influenza and pneumonia</div>
-      <div class="note-box excludes1" style="margin-bottom:.75rem">Excludes2 (block): aspiration pneumonia due to solids/liquids (J69.–); congenital pneumonia (P23.–); neonatal aspiration pneumonia (P24.–)</div>
-      <div style="font-weight:500;font-size:15px;border-bottom:1.5px solid var(--border-md);padding-bottom:6px;margin-bottom:8px">J18 &nbsp; Pneumonia, unspecified organism</div>
-      <div class="note-box includes" style="margin-bottom:.5rem">Includes: bronchopneumonia NOS; hypostatic pneumonia; lobar pneumonia NOS</div>
-      <div class="note-box excludes1">Excludes1: abscess of lung with pneumonia (J85.1); pneumonia due to fumes/vapors (J68.0)</div>
-      <div style="margin:.75rem 0 .3rem;font-size:12px;font-weight:500;color:var(--text-3);font-family:var(--mono)">Subcategories:</div>
-      <div class="code-row"><span class="cod">J18.0</span><span>Bronchopneumonia, unspecified organism</span></div>
-      <div class="code-row selected"><span class="cod">J18.1</span><span>Lobar pneumonia, unspecified organism</span></div>
-      <div class="code-row"><span class="cod">J18.2</span><span>Hypostatic pneumonia, unspecified organism</span></div>
-      <div class="code-row"><span class="cod">J18.8</span><span>Other pneumonia, unspecified organism</span></div>
-      <div class="code-row"><span class="cod">J18.9</span><span>Pneumonia, unspecified organism</span></div>
-      <div style="margin-top:.9rem;border:1px solid var(--border-md);border-radius:var(--radius-sm);overflow:hidden">
-        <div style="background:var(--blue-bg);padding:.5rem .9rem;border-bottom:1px solid var(--border)">
-          <span style="font-family:var(--mono);font-size:16px;font-weight:500;color:var(--blue)">J18.1</span>
-          <span style="font-size:14px;font-weight:500;color:var(--blue-text);margin-left:10px">Lobar pneumonia, unspecified organism</span>
-        </div>
-        <div style="padding:.65rem .9rem">
-          <div class="note-box includes" style="margin-bottom:.4rem">Includes: lobar (disseminated) (double) pneumonia NOS</div>
-          <p style="font-size:13px;color:var(--text-2)">No 6th or 7th character required. Code is complete at 5 characters.</p>
-          <p style="font-size:13px;color:var(--text-2);margin-top:.25rem">No "Code first," "Use additional code," or "Code also" instructions present.</p>
-          <div style="margin-top:.6rem;background:var(--green-bg);border:1px solid var(--green);border-radius:var(--radius-sm);padding:.5rem .8rem;font-size:13px;color:var(--green-text);font-weight:500">Code confirmed valid. Assign J18.1.</div>
-        </div>
-      </div>
-    </div>`;
-}
-
-function buildWalkPane() {
-  return `
-    <div class="page-header">Full lookup walkthrough · Lobar pneumonia, bacterial</div>
-    <div class="page">
-      <div style="display:inline-flex;align-items:center;gap:8px;background:var(--blue-bg);color:var(--blue-text);border-radius:20px;padding:4px 14px;font-size:12.5px;font-weight:500;margin-bottom:1rem;font-family:var(--mono)">Diagnosis: Lobar pneumonia, bacterial</div>
-      ${[
-        {n:'1',nc:'nc-blue',hdr:'Identify the main term',body:`Chart says: <em>"Lobar pneumonia, bacterial — right lower lobe"</em><br><span style="color:var(--text-2)">Main term = <strong>Pneumonia</strong> (the condition). Not "lung" or "lobe."</span>`},
-        {n:'2',nc:'nc-blue',hdr:'Open the Alphabetic index — section P',body:`<span style="color:var(--text-2);display:block;margin-bottom:.4rem">Thumb to bold main term <strong>Pneumonia</strong>. Read the indented subterms:</span>
-        <div style="font-family:var(--mono);font-size:13px;background:var(--surface2);border-radius:var(--radius-sm);padding:.5rem .8rem;line-height:1.9">
-          Pneumonia<br>
-          <span style="padding-left:1.2rem;color:var(--text-3)">— adenoviral ............. J12.0</span><br>
-          <span style="padding-left:1rem;background:var(--amber-bg);color:var(--amber-text);display:block;border-left:2px solid var(--amber)">— lobar ................... J18.1</span>
-          <span style="padding-left:2.4rem;color:var(--text-3)">— — bacterial .......... J18.1</span>
-        </div>
-        <div style="font-size:12.5px;color:var(--text-2);margin-top:.4rem">Candidate code: <span style="font-family:var(--mono);color:var(--blue);font-weight:500">J18.1</span></div>`},
-        {n:'3',nc:'nc-blue',hdr:'Check for cross-references',body:`<span style="color:var(--text-2)">No "See" or "See also" instruction next to lobar pneumonia. Proceed directly to Tabular list.</span>`},
-        {n:'4',nc:'nc-amber',hdr:'Open Tabular list at J18.1',body:`<span style="color:var(--text-2);display:block;margin-bottom:.4rem">Read notes at every level:</span>
-        <div style="display:flex;flex-direction:column;gap:5px">
-          <div style="font-size:12.5px;background:var(--green-bg);border-radius:var(--radius-sm);padding:5px 10px;color:var(--green-text)">Chapter J: no coding alerts apply to this code</div>
-          <div style="font-size:12.5px;background:var(--green-bg);border-radius:var(--radius-sm);padding:5px 10px;color:var(--green-text)">Block J09–J18: Excludes2 (aspiration, congenital) — does not apply here</div>
-          <div style="font-size:12.5px;background:var(--green-bg);border-radius:var(--radius-sm);padding:5px 10px;color:var(--green-text)">J18 category: no "Code first" or "Use additional" instruction</div>
-          <div style="font-size:12.5px;background:var(--green-bg);border-radius:var(--radius-sm);padding:5px 10px;color:var(--green-text)">J18.1 entry: valid 5-character code, no further characters required</div>
-        </div>`},
-        {n:'5',nc:'nc-green',hdr:'Confirm specificity',body:`<span style="color:var(--text-2)">J18.1 matches the documentation. "Right lower lobe" — no separate laterality character exists for pneumonia codes, so this level of detail is not separately codeable.</span>`},
-        {n:'6',nc:'nc-green',hdr:'Assign the final code',body:`<div style="text-align:center;padding:.75rem 0">
-          <div style="font-family:var(--mono);font-size:32px;font-weight:500;color:var(--blue);letter-spacing:.1em">J18.1</div>
-          <div style="font-size:13px;color:var(--text-2);margin-top:4px">Lobar pneumonia, unspecified organism</div>
-          <div style="margin-top:.65rem;display:flex;gap:7px;flex-wrap:wrap;justify-content:center">
-            <span style="background:var(--green-bg);color:var(--green-text);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:500;font-family:var(--mono)">Valid code</span>
-            <span style="background:var(--blue-bg);color:var(--blue-text);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:500;font-family:var(--mono)">5 characters — complete</span>
-            <span style="background:var(--green-bg);color:var(--green-text);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:500;font-family:var(--mono)">No extensions required</span>
-          </div>
-        </div>`},
-      ].map(s=>`
-        <div class="walk-step">
-          <div class="walk-step-header"><span class="num-circle ${s.nc}">${s.n}</span>${s.hdr}</div>
-          <div class="walk-step-body">${s.body}</div>
-        </div>`).join('')}
-    </div>`;
-}
-
-function showTab(t) {
-  ['idx','tab','walk'].forEach(id => {
-    document.getElementById('pane-'+id).style.display = id===t ? 'block' : 'none';
-    document.getElementById('tab-'+id).classList.toggle('active', id===t);
-  });
-}
-
-/* ── Init ── */
-document.getElementById('pane-idx').innerHTML  = buildIndexPane();
-document.getElementById('pane-tab').innerHTML  = buildTabularPane();
-document.getElementById('pane-walk').innerHTML = buildWalkPane();
-renderPart1();
-</script>
-</body>
+    </div>
+  </body>
 </html>
