@@ -4,487 +4,711 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Hilary Homaii">
-<title>ICD-10 Interactive Learning Tool — Hilary Homaii</title>
+<title>ICD-10 Interactive Learning Tool</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --dark:#1A1F2E;--dark2:#242938;--dark3:#2E3447;--dark4:#38405A;
-  --accent:#4A9EFF;--accent2:#3B82F6;--aglow:rgba(74,158,255,.15);
-  --green:#34D399;--gbg:rgba(52,211,153,.12);
-  --amber:#FBBF24;--abg:rgba(251,191,36,.12);
-  --red:#F87171;--rbg:rgba(248,113,113,.12);
-  --purple:#A78BFA;--pbg:rgba(167,139,250,.12);
-  --text:#F0F2F8;--text2:#9BA3BC;--text3:#5E6880;
-  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
-  --serif:'Playfair Display',Georgia,serif;
-  --sans:'Source Sans 3',sans-serif;
-  --mono:'JetBrains Mono',monospace;
-  --r:12px;--rs:8px;
+  --slate50:#f8fafc;--slate100:#f1f5f9;--slate200:#e2e8f0;--slate300:#cbd5e1;
+  --slate400:#94a3b8;--slate500:#64748b;--slate600:#475569;--slate700:#334155;
+  --slate800:#1e293b;--slate900:#0f172a;
+  --blue50:#eff6ff;--blue100:#dbeafe;--blue200:#bfdbfe;--blue300:#93c5fd;
+  --blue400:#60a5fa;--blue500:#3b82f6;--blue600:#2563eb;--blue700:#1d4ed8;
+  --green50:#f0fdf4;--green100:#dcfce7;--green500:#22c55e;--green600:#16a34a;--green700:#15803d;
+  --red50:#fef2f2;--red100:#fee2e2;--red500:#ef4444;--red600:#dc2626;--red700:#b91c1c;
+  --amber50:#fffbeb;--amber100:#fef3c7;--amber500:#f59e0b;--amber600:#d97706;
+  --purple50:#faf5ff;--purple100:#f3e8ff;--purple500:#a855f7;--purple600:#9333ea;
+  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
 }
-body{font-family:var(--sans);background:var(--dark);color:var(--text);font-size:15px;line-height:1.7;min-height:100vh}
-header{background:linear-gradient(135deg,#0F1320,#1A1F2E 50%,#1E2540);padding:2.5rem 2rem 2rem;border-bottom:1px solid var(--border2)}
-header .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
-header h1{font-family:var(--serif);font-size:clamp(24px,4vw,36px);font-weight:600;color:#fff;line-height:1.2}
-header .sub{font-size:14px;color:var(--text2);margin-top:.4rem;font-style:italic}
-header .author{font-size:12px;color:var(--text3);margin-top:.6rem;font-family:var(--mono);letter-spacing:.04em}
-main{max-width:860px;margin:0 auto;padding:2rem 1.25rem 4rem}
-section{margin-bottom:2.5rem}
-.slabel{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
-.slabel::after{content:'';flex:1;height:1px;background:var(--border)}
-.card{background:var(--dark2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.card-body{padding:1.5rem 1.75rem}
-.tab-bar{background:var(--dark2);border:1px solid var(--border);border-radius:var(--r);padding:.65rem;margin-bottom:1rem;display:flex;gap:4px;flex-wrap:wrap}
-.titem{flex:1;min-width:68px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:.55rem .35rem;border-radius:var(--rs);cursor:pointer;transition:background .2s;border:1px solid transparent}
-.titem:hover{background:var(--dark3)}
-.titem.active{background:var(--accent2);border-color:rgba(74,158,255,.4)}
-.titem.done{background:var(--gbg);border-color:rgba(52,211,153,.3)}
-.ticon{font-size:20px;line-height:1}
-.tlabel{font-size:10px;font-family:var(--mono);color:var(--text2);text-align:center;line-height:1.3}
-.titem.active .tlabel{color:#fff}
-.titem.done .tlabel{color:var(--green)}
-.sbadge{display:inline-flex;align-items:center;gap:6px;background:var(--dark3);border:1px solid var(--border2);border-radius:20px;padding:5px 14px;font-family:var(--mono);font-size:12px;color:var(--text2);margin-bottom:.85rem}
-.sbadge strong{color:var(--accent)}
-.shbar{background:linear-gradient(135deg,var(--dark3),var(--dark4));border-radius:var(--r);padding:1.2rem 1.5rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:14px;border:1px solid var(--border2)}
-.shicon{font-size:26px;flex-shrink:0}
-.shnum{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
-.shtitle{font-family:var(--serif);font-size:21px;font-weight:600;color:#fff;line-height:1.2}
-button{font-family:var(--sans);font-size:14px;padding:9px 20px;border-radius:var(--rs);border:1px solid var(--border2);background:transparent;color:var(--text);cursor:pointer;transition:background .15s,transform .1s}
-button:hover{background:var(--dark3)}
-button:active{transform:scale(.98)}
-button.primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
-button.primary:hover{background:#2563EB}
-.nav{display:flex;gap:10px;margin-top:1.2rem;align-items:center}
-.codebox{font-family:var(--mono);font-size:28px;font-weight:500;letter-spacing:.12em;padding:.65rem 1.2rem;background:var(--dark);border-radius:var(--rs);display:inline-block;margin:.65rem 0;border:1px solid var(--border2);color:var(--text)}
-.breakdown{display:flex;gap:4px;margin:.65rem 0 1rem;flex-wrap:wrap}
-.cpart{text-align:center}
-.cchar{font-family:var(--mono);font-size:19px;font-weight:500;width:36px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:var(--rs);border:1px solid transparent}
-.clabel{font-size:9px;margin-top:4px;font-family:var(--mono);color:var(--text3)}
-.cc-cat{background:var(--aglow);color:var(--accent);border-color:rgba(74,158,255,.3)}
-.cc-etio{background:var(--pbg);color:var(--purple);border-color:rgba(167,139,250,.3)}
-.cc-body{background:var(--gbg);color:var(--green);border-color:rgba(52,211,153,.3)}
-.cc-sev{background:var(--abg);color:var(--amber);border-color:rgba(251,191,36,.3)}
-.cc-ext{background:var(--rbg);color:var(--red);border-color:rgba(248,113,113,.3)}
-.cc-dot{background:var(--dark3);color:var(--text3)}
-.note-box{border-radius:var(--rs);padding:.5rem .85rem;font-size:13px;margin:.45rem 0;line-height:1.5}
-.nb-inc{background:var(--gbg);border-left:3px solid var(--green);color:var(--green)}
-.nb-exc{background:var(--rbg);border-left:3px solid var(--red);color:var(--red)}
-.nb-tip{background:var(--abg);border-left:3px solid var(--amber);color:var(--amber)}
-.nb-info{background:var(--aglow);border-left:3px solid var(--accent);color:#93C5FD}
-.ihl-a{background:var(--abg);border-left:3px solid var(--amber);padding-left:8px;margin-left:-8px;color:var(--amber)}
-.ihl-b{background:var(--aglow);border-left:3px solid var(--accent);padding-left:8px;margin-left:-8px}
-.imain{font-weight:600;font-size:15px;margin:.45rem 0 .2rem;color:var(--text)}
-.sub1{padding-left:1.5rem;font-size:13.5px;color:var(--text2)}
-.sub2{padding-left:3rem;font-size:13.5px;color:var(--text2)}
-.cref{font-family:var(--mono);color:var(--accent);font-weight:500;font-size:13px}
-.sref{font-style:italic;color:var(--text3);font-size:13px}
-.crow{display:flex;align-items:baseline;gap:10px;padding:4px 0}
-.crow .cod{font-family:var(--mono);font-size:13.5px;font-weight:500;color:var(--accent);min-width:72px}
-.crow.sel{background:var(--aglow);padding-left:8px;margin-left:-8px;border-left:3px solid var(--accent);border-radius:0}
-.phdr{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;padding:8px 1.25rem;background:var(--dark);border-bottom:1px solid var(--border)}
-.ppage{padding:1rem 1.25rem}
-.divider{border:none;border-top:1px solid var(--border);margin:.6rem 0}
-.btab-row{display:flex;gap:0}
-.btab{flex:1;padding:9px 6px;font-family:var(--mono);font-size:11px;border:1px solid var(--border);background:var(--dark);color:var(--text3);cursor:pointer;transition:background .15s;border-radius:0;letter-spacing:.02em}
-.btab:first-child{border-radius:var(--rs) 0 0 0}
-.btab:last-child{border-radius:0 var(--rs) 0 0}
-.btab.active{background:var(--dark2);color:var(--text);border-bottom-color:var(--dark2);font-weight:500}
-.bwrap{border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);background:var(--dark2)}
-.wstep{border:1px solid var(--border);border-radius:var(--rs);margin-bottom:.6rem;overflow:hidden}
-.wshdr{padding:.5rem .9rem;background:var(--dark);font-size:12px;font-weight:500;color:var(--text2);display:flex;align-items:center;gap:8px;font-family:var(--mono)}
-.wsbody{padding:.65rem .9rem;font-size:13.5px;color:var(--text2)}
-.nc{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;font-family:var(--mono)}
-.nc-b{background:var(--aglow);color:var(--accent);border:1px solid rgba(74,158,255,.3)}
-.nc-a{background:var(--abg);color:var(--amber);border:1px solid rgba(251,191,36,.3)}
-.nc-g{background:var(--gbg);color:var(--green);border:1px solid rgba(52,211,153,.3)}
-.slist{list-style:none;counter-reset:s}
-.slist li{counter-increment:s;display:flex;gap:12px;margin-bottom:.85rem;font-size:14.5px;color:var(--text2);line-height:1.6}
-.slist li::before{content:counter(s);min-width:26px;height:26px;border-radius:50%;background:var(--aglow);color:var(--accent);border:1px solid rgba(74,158,255,.3);font-size:12px;font-weight:500;font-family:var(--mono);display:flex;align-items:center;justify-content:center;margin-top:2px;flex-shrink:0}
-.qopt{width:100%;text-align:left;margin-bottom:7px;padding:11px 15px;font-family:var(--sans);font-size:14px;border-radius:var(--rs);border:1px solid var(--border2);background:var(--dark3);color:var(--text);cursor:pointer;transition:background .15s;line-height:1.5}
-.qopt:hover:not(:disabled){background:var(--dark4)}
-.qopt.correct{border-color:var(--green);background:var(--gbg);color:var(--green)}
-.qopt.wrong{border-color:var(--red);background:var(--rbg);color:var(--red)}
-.fb{font-size:13.5px;padding:10px 14px;border-radius:var(--rs);margin-top:8px;line-height:1.6}
-.fb.correct{background:var(--gbg);color:var(--green);border:1px solid rgba(52,211,153,.3)}
-.fb.wrong{background:var(--rbg);color:var(--red);border:1px solid rgba(248,113,113,.3)}
-.dzone{min-height:48px;border:1.5px dashed var(--border2);border-radius:var(--rs);display:flex;align-items:center;flex:1;padding:6px 10px;gap:6px;flex-wrap:wrap;transition:border-color .2s,background .2s}
-.dzone.over{border-color:var(--accent);background:var(--aglow)}
-.dtile{font-family:var(--mono);font-size:12px;font-weight:500;padding:6px 12px;border-radius:var(--rs);cursor:grab;user-select:none;border:1px solid var(--border2);background:var(--dark3);color:var(--text);transition:transform .1s;line-height:1.4}
+body{font-family:var(--font);background:#faf8f4;color:var(--slate800);font-size:15px;line-height:1.6;min-height:100vh}
+
+/* HEADER */
+header{background:var(--slate900);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 4px 6px -1px rgba(0,0,0,.3)}
+.hinner{max-width:56rem;margin:0 auto;padding:.85rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hlogo{display:flex;align-items:center;gap:10px}
+.hlogo-icon{font-size:24px}
+.htitle{font-size:17px;font-weight:700;line-height:1}
+.hsub{color:var(--blue300);font-size:11px;margin-top:2px}
+.hbadge{background:var(--blue100);color:var(--blue800,#1e40af);border:1px solid var(--blue200);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+
+/* MAIN */
+main{max-width:56rem;margin:0 auto;padding:2rem 1rem;display:flex;flex-direction:column;gap:1.75rem}
+
+/* CARDS */
+.card{background:#fff;border-radius:16px;border:1px solid var(--slate200);box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+
+/* TAB NAV */
+.tab-nav{padding:.75rem;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.tnav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 8px;border-radius:8px;border:none;cursor:pointer;font-family:var(--font);transition:all .15s;min-width:0;flex:1}
+.tnav-btn .ti{font-size:16px;line-height:1}
+.tnav-btn .tl{font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;max-width:60px;text-overflow:ellipsis}
+.tnav-btn.tdone{background:var(--blue100);color:var(--blue700,#1d4ed8)}
+.tnav-btn.tactive{background:var(--blue600);color:#fff;transform:scale(1.08)}
+.tnav-btn.tfuture{background:var(--slate100);color:var(--slate400)}
+.tnav-btn:hover{filter:brightness(.95)}
+
+/* STEP HEADER */
+.step-hdr{background:linear-gradient(to right,var(--slate800),var(--slate700));color:#fff;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:12px}
+.step-hdr-icon{font-size:28px;flex-shrink:0}
+.step-hdr-label{color:var(--blue300);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.step-hdr-title{font-size:22px;font-weight:700}
+
+/* STEP CONTENT */
+.step-body{padding:1.5rem}
+
+/* STEP FOOTER */
+.step-footer{border-top:1px solid var(--slate100);padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;background:var(--slate50)}
+.dots{display:flex;gap:4px;align-items:center}
+.dot{height:8px;border-radius:4px;transition:all .2s}
+.dot.done{width:8px;background:var(--blue300)}
+.dot.active{width:24px;background:var(--blue600)}
+.dot.future{width:8px;background:var(--slate200)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-outline{background:#fff;border-color:var(--slate200);color:var(--slate600)}
+.btn-outline:hover:not(:disabled){background:var(--slate50)}
+.btn-blue{background:var(--blue600);color:#fff}
+.btn-blue:hover:not(:disabled){background:var(--blue700)}
+.btn-green{background:var(--green600);color:#fff}
+.btn-green:hover:not(:disabled){background:var(--green700)}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+/* CONTENT HELPERS */
+p{color:var(--slate700);line-height:1.7}
+strong{color:var(--slate800)}
+.space-y > * + *{margin-top:1rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+@media(max-width:500px){.grid2{grid-template-columns:1fr}}
+
+/* INFO BOXES */
+.tip{background:var(--blue50);border-left:4px solid var(--blue300);border-radius:0 8px 8px 0;padding:.75rem 1rem;font-size:13.5px}
+.tip strong{color:var(--blue700,#1d4ed8)}
+.tip-green{background:var(--green50);border-left:4px solid var(--green500);border-radius:0 8px 8px 0;padding:.75rem 1rem;font-size:13.5px}
+.tip-amber{background:var(--amber50);border-left:4px solid var(--amber500);border-radius:0 8px 8px 0;padding:.75rem 1rem;font-size:13.5px}
+.tip-red{background:var(--red50);border-left:4px solid var(--red500);border-radius:0 8px 8px 0;padding:.75rem 1rem;font-size:13.5px}
+
+/* SMALL CARDS */
+.scard{background:#fff;border:1px solid var(--slate200);border-radius:8px;padding:.75rem}
+.badge{display:inline-flex;align-items:center;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid transparent}
+.badge-slate{background:var(--slate100);color:var(--slate700);border-color:var(--slate200)}
+.badge-blue{background:var(--blue100);color:#1e40af;border-color:var(--blue200)}
+.badge-green{background:var(--green100);color:var(--green700);border-color:#bbf7d0}
+.badge-amber{background:var(--amber100);color:var(--amber600);border-color:#fde68a}
+.badge-red{background:var(--red100);color:var(--red700);border-color:#fecaca}
+.badge-purple{background:var(--purple100);color:var(--purple600);border-color:#e9d5ff}
+
+/* CODE ANATOMY */
+.code-block{background:var(--slate900);border-radius:16px;padding:1.5rem;text-align:center;margin:.75rem 0}
+.code-chars{display:flex;align-items:flex-end;justify-content:center;gap:0;flex-wrap:wrap;margin-bottom:.75rem}
+.cc-wrap{display:flex;flex-direction:column;align-items:center;margin:0 4px}
+.cc{font-family:var(--mono);color:#fff;font-size:28px;font-weight:700;padding:8px 12px;border-radius:8px;line-height:1}
+.cc-label{color:var(--slate300);font-size:10px;margin-top:4px;white-space:nowrap;font-weight:500}
+.cc-sub{color:var(--slate500);font-size:10px}
+.cc-dot{font-family:var(--mono);color:#fff;font-size:36px;padding-bottom:6px;font-weight:400}
+.cc-blue{background:var(--blue500)}
+.cc-purple{background:var(--purple500)}
+.cc-green{background:var(--green500)}
+.cc-amber{background:var(--amber500)}
+.cc-red{background:#f43f5e}
+
+/* BUILD A CODE */
+.build-section{margin:.75rem 0}
+.build-section h4{font-size:13.5px;font-weight:600;color:var(--slate700);margin-bottom:.5rem}
+.choice-group{display:flex;flex-wrap:wrap;gap:6px}
+.choice-btn{padding:7px 14px;border-radius:8px;border:1.5px solid var(--slate200);background:#fff;color:var(--slate700);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.choice-btn:hover{border-color:var(--blue400);background:var(--blue50);color:var(--blue700,#1d4ed8)}
+.choice-btn.picked{border-color:var(--blue600);background:var(--blue600);color:#fff}
+.code-result{background:var(--slate900);border-radius:12px;padding:1.25rem;text-align:center;margin-top:1rem}
+.code-result-label{font-size:11px;color:var(--slate400);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.code-result-code{font-family:var(--mono);font-size:32px;font-weight:700;color:#4ade80;letter-spacing:.12em}
+.code-result-code.pending{color:var(--slate500)}
+.code-result-desc{font-size:12px;color:var(--slate400);margin-top:.3rem}
+
+/* QUIZ */
+.qopt{width:100%;text-align:left;padding:11px 15px;border-radius:8px;border:1.5px solid var(--slate200);background:#fff;color:var(--slate700);font-family:var(--font);font-size:14px;cursor:pointer;transition:all .15s;margin-bottom:6px;line-height:1.5}
+.qopt:hover:not(:disabled){border-color:var(--blue400);background:var(--blue50)}
+.qopt.qcorrect{border-color:var(--green500);background:var(--green50);color:var(--green700)}
+.qopt.qwrong{border-color:var(--red500);background:var(--red50);color:var(--red700)}
+.qfb{padding:10px 14px;border-radius:8px;font-size:13.5px;margin-top:6px;line-height:1.6}
+.qfb.correct{background:var(--green50);color:var(--green700);border:1px solid #bbf7d0}
+.qfb.wrong{background:var(--red50);color:var(--red700);border:1px solid #fecaca}
+
+/* DRAG DROP */
+.dtiles{display:flex;flex-wrap:wrap;gap:6px;min-height:48px;padding:.6rem;background:var(--slate50);border-radius:8px;border:1.5px dashed var(--slate300);margin-bottom:.75rem}
+.dtile{padding:7px 13px;border-radius:8px;border:1.5px solid var(--slate200);background:#fff;color:var(--slate700);font-size:13px;font-weight:500;cursor:grab;user-select:none;transition:transform .1s}
 .dtile:active{cursor:grabbing;transform:scale(1.04)}
-.drow{display:flex;align-items:center;gap:10px;margin:5px 0}
-.dlabel{min-width:64px;font-family:var(--mono);font-size:11px;background:var(--aglow);color:var(--accent);border-radius:var(--rs);padding:4px 8px;text-align:center;font-weight:500;border:1px solid rgba(74,158,255,.25)}
-.sdiv{text-align:center;position:relative;margin:2.5rem 0 2rem}
-.sdiv::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--border)}
-.sdiv span{position:relative;background:var(--dark);padding:0 1rem;font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase}
-.bgfx{display:flex;gap:10px;margin:1rem 0}
-.bgfx-s{flex:1;border-radius:var(--rs);padding:.85rem;text-align:center;border:1px solid var(--border)}
-.bgfx-si{font-size:24px;margin-bottom:5px}
-.bgfx-sl{font-size:13px;font-weight:600;color:var(--text)}
-.bgfx-sd{font-size:11px;margin-top:3px;color:var(--text2)}
-.sring{font-size:48px;font-weight:500;text-align:center;color:var(--accent);margin:.5rem 0;font-family:var(--mono)}
-.spick{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem}
-.spbtn{font-family:var(--mono);font-size:12px;padding:6px 16px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;letter-spacing:.02em}
-.spbtn:hover{background:var(--dark3)}
-.spbtn.active{background:var(--accent2);color:#fff;border-color:var(--accent2)}
-.spbtn.done{background:var(--gbg);color:var(--green);border-color:rgba(52,211,153,.4)}
-.spclin{background:var(--dark);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:0 var(--r) var(--r) 0;padding:1rem 1.25rem;margin-bottom:1rem}
-.spclinl{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:.4rem;font-weight:500}
-.phind{display:flex;gap:0;margin-bottom:1rem;border:1px solid var(--border);border-radius:var(--rs);overflow:hidden}
-.phbtn{flex:1;padding:8px 6px;font-family:var(--mono);font-size:11px;border:none;background:var(--dark);color:var(--text3);cursor:pointer;letter-spacing:.03em;transition:background .2s,color .2s;text-transform:uppercase}
-.phbtn.active{background:var(--accent2);color:#fff}
-.phbtn.done{background:var(--gbg);color:var(--green)}
+.drow{display:flex;align-items:center;gap:8px;margin:4px 0}
+.dlabel{min-width:60px;font-size:11px;font-weight:600;font-family:var(--mono);background:var(--blue100);color:#1e40af;border-radius:6px;padding:4px 8px;text-align:center}
+.dzone{flex:1;min-height:42px;border:1.5px dashed var(--slate300);border-radius:8px;display:flex;align-items:center;padding:5px 8px;gap:6px;flex-wrap:wrap;transition:all .2s}
+.dzone.over{border-color:var(--blue500);background:var(--blue50)}
+
+/* BOOK SIMULATION */
+.book-tabs{display:flex;border-bottom:1px solid var(--slate200)}
+.book-tab{flex:1;padding:.75rem 1rem;font-size:13px;font-weight:600;border:none;background:transparent;cursor:pointer;color:var(--slate500);transition:all .15s;border-bottom:2px solid transparent}
+.book-tab:hover{background:var(--slate50);color:var(--slate700)}
+.book-tab.active{color:var(--blue600);border-bottom-color:var(--blue600);background:var(--blue50)}
+.book-page{padding:1.5rem;font-size:13.5px}
+.book-hdr{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--slate400);padding:8px 1.5rem;background:var(--slate50);border-bottom:1px solid var(--slate200)}
+
+/* BOOK INDEX */
+.imain{font-weight:700;font-size:15px;margin:.5rem 0 .2rem;color:var(--slate900)}
+.sub1{padding-left:1.5rem;font-size:13.5px;color:var(--slate600)}
+.sub2{padding-left:3rem;font-size:13.5px;color:var(--slate600)}
+.cref{font-family:var(--mono);color:var(--blue600);font-weight:600;font-size:13px}
+.sref{font-style:italic;color:var(--slate400);font-size:13px}
+.ihl{background:#fef9c3;border-left:3px solid var(--amber500);padding-left:8px;margin-left:-8px}
+.note-inc{background:var(--green50);border-left:3px solid var(--green500);border-radius:0 6px 6px 0;padding:5px 10px;font-size:12.5px;color:var(--green700);margin:.4rem 0}
+.note-exc{background:var(--red50);border-left:3px solid var(--red500);border-radius:0 6px 6px 0;padding:5px 10px;font-size:12.5px;color:var(--red700);margin:.4rem 0}
+.divider{border:none;border-top:1px solid var(--slate200);margin:.5rem 0}
+.crow{display:flex;gap:10px;padding:3px 0}
+.crow .cod{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--blue600);min-width:68px}
+.crow.csel{background:var(--blue50);border-left:3px solid var(--blue600);padding-left:8px;margin-left:-8px;border-radius:0}
+
+/* WALKTHROUGH */
+.wstep{border:1px solid var(--slate200);border-radius:8px;margin-bottom:8px;overflow:hidden}
+.wshdr{background:var(--slate50);padding:.5rem .85rem;font-size:12px;font-weight:600;color:var(--slate600);display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--slate100)}
+.wsbody{padding:.65rem .85rem;font-size:13.5px;color:var(--slate700)}
+.wnc{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:var(--mono)}
+.wnc-b{background:var(--blue100);color:#1e40af}
+.wnc-a{background:var(--amber100);color:var(--amber600)}
+.wnc-g{background:var(--green100);color:var(--green700)}
+.imock{font-family:var(--mono);font-size:12.5px;background:var(--slate50);border-radius:6px;padding:.5rem .75rem;margin:.4rem 0;line-height:1.9;border:1px solid var(--slate200)}
+.tmock{font-size:12.5px;background:var(--slate50);border-radius:6px;padding:.5rem .75rem;margin:.4rem 0;border:1px solid var(--slate200)}
+.mhl-a{background:#fef9c3;border-left:2px solid var(--amber500);padding:1px 6px;display:block;color:var(--amber600)}
+.mhl-b{background:var(--blue50);border-left:2px solid var(--blue500);padding:1px 6px;display:block;color:var(--blue700,#1d4ed8)}
+
+/* STEPS LIST */
+.slist{list-style:none;counter-reset:s}
+.slist li{counter-increment:s;display:flex;gap:10px;margin-bottom:.75rem;font-size:14px;color:var(--slate700);line-height:1.6}
+.slist li::before{content:counter(s);min-width:24px;height:24px;border-radius:50%;background:var(--blue100);color:#1e40af;font-size:12px;font-weight:700;font-family:var(--mono);display:flex;align-items:center;justify-content:center;margin-top:2px;flex-shrink:0}
+
+/* PART 3 SIM */
+.spick-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.spick-btn{font-family:var(--font);font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;border:1.5px solid var(--slate200);background:#fff;color:var(--slate500);cursor:pointer;transition:all .15s}
+.spick-btn:hover{background:var(--slate50)}
+.spick-btn.sactive{background:var(--blue600);color:#fff;border-color:var(--blue600)}
+.spick-btn.sdone{background:var(--green50);color:var(--green700);border-color:#bbf7d0}
+.phind{display:flex;border:1px solid var(--slate200);border-radius:8px;overflow:hidden;margin-bottom:1rem}
+.phbtn{flex:1;padding:7px 4px;font-family:var(--font);font-size:11px;font-weight:600;border:none;background:#fff;color:var(--slate400);cursor:pointer;letter-spacing:.03em;transition:all .2s;text-transform:uppercase}
+.phbtn.pactive{background:var(--blue600);color:#fff}
+.phbtn.pdone{background:var(--green50);color:var(--green700)}
 .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.75rem}
-.pcard{border:1px solid var(--border2);border-radius:var(--rs);padding:.85rem 1rem;cursor:pointer;transition:border-color .15s,background .15s;background:var(--dark3);text-align:left}
-.pcard:hover{border-color:var(--accent);background:var(--dark4)}
-.pcard.sc{border-color:var(--green);background:var(--gbg)}
-.pcard.sw{border-color:var(--red);background:var(--rbg)}
-.pcard.rc{border-color:var(--green);background:var(--gbg)}
-.pcode{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--accent);margin-bottom:3px}
-.pdesc{font-size:12.5px;color:var(--text2);line-height:1.45}
-.imock{font-family:var(--mono);font-size:12.5px;background:var(--dark);border-radius:var(--rs);padding:.5rem .75rem;margin:.4rem 0;line-height:1.9;border:1px solid var(--border)}
-.tmock{font-size:12.5px;background:var(--dark);border-radius:var(--rs);padding:.5rem .75rem;margin:.4rem 0;border:1px solid var(--border)}
-.hl-a{background:var(--abg);border-left:2px solid var(--amber);padding:1px 6px;display:block;color:var(--amber)}
-.hl-b{background:var(--aglow);border-left:2px solid var(--accent);padding:1px 6px;display:block;color:var(--accent)}
-.ctable{width:100%;border-collapse:collapse;font-size:13px;margin:.6rem 0}
-.ctable th{padding:8px 10px;text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.06em;font-weight:500;background:var(--dark);border-bottom:1px solid var(--border);color:var(--text3);text-transform:uppercase}
-.ctable td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;color:var(--text2)}
-.ctable tr:last-child td{border-bottom:none}
-@media(max-width:600px){.tab-bar{gap:2px}.titem{min-width:56px}.ticon{font-size:16px}.tlabel{font-size:9px}.bgfx{flex-direction:column}.pgrid{grid-template-columns:1fr}.btab{font-size:10px;padding:8px 3px}}
+@media(max-width:480px){.pgrid{grid-template-columns:1fr}}
+.pcard{border:1.5px solid var(--slate200);border-radius:8px;padding:.85rem 1rem;cursor:pointer;transition:all .15s;background:#fff;text-align:left}
+.pcard:hover{border-color:var(--blue400);background:var(--blue50)}
+.pcard.psc{border-color:var(--green500);background:var(--green50)}
+.pcard.psw{border-color:var(--red500);background:var(--red50)}
+.pcard.prc{border-color:var(--green500);background:var(--green50)}
+.pcode{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--blue600);margin-bottom:2px}
+.pdesc{font-size:12.5px;color:var(--slate500);line-height:1.4}
+
+/* SCORE */
+.score-big{font-size:48px;font-weight:700;text-align:center;color:var(--blue600);font-family:var(--mono)}
+
+/* BOOK GRAPHIC */
+.bgfx{display:flex;gap:8px;margin:.75rem 0}
+.bgfx-s{flex:1;border-radius:8px;padding:.75rem;text-align:center;border:1px solid var(--slate200)}
+.bgfx-si{font-size:22px;margin-bottom:4px}
+.bgfx-sl{font-size:13px;font-weight:700;color:var(--slate800)}
+.bgfx-sd{font-size:11px;color:var(--slate500);margin-top:2px}
+@media(max-width:500px){.bgfx{flex-direction:column}}
+
+footer{text-align:center;padding:2rem 1rem;color:var(--slate400);font-size:13px}
 </style>
 </head>
 <body>
+
 <header>
-  <div class="eyebrow">Medical Coding Education</div>
-  <h1>ICD-10 Interactive Learning Tool</h1>
-  <p class="sub">Master Medical Coding Step by Step</p>
-  <p class="author">Created by Hilary Homaii</p>
+  <div class="hinner">
+    <div class="hlogo">
+      <span class="hlogo-icon">🏥</span>
+      <div>
+        <div class="htitle">ICD-10 Interactive Learning Tool</div>
+        <div class="hsub">Master Medical Coding Step by Step • Created by Hilary Homaii</div>
+      </div>
+    </div>
+    <span class="hbadge" id="hbadge">Step 1/10</span>
+  </div>
 </header>
+
 <main>
-  <section>
-    <div class="slabel">Part 1 — Core concepts &amp; activities</div>
-    <div id="tabbar"></div>
-    <div class="card"><div class="card-body" id="sc1"></div></div>
-  </section>
-  <div class="sdiv"><span>Book simulation</span></div>
-  <section>
-    <div class="slabel">Part 2 — See exactly how the book looks</div>
-    <div class="btab-row">
-      <button class="btab active" id="bt-idx" onclick="showTab('idx')">Vol 2 — Alphabetic index</button>
-      <button class="btab" id="bt-tab" onclick="showTab('tab')">Vol 1 — Tabular list</button>
-      <button class="btab" id="bt-walk" onclick="showTab('walk')">Full walkthrough</button>
+  <!-- TAB NAV -->
+  <div class="card"><div class="tab-nav" id="tabnav"></div></div>
+
+  <!-- STEP CARD -->
+  <div class="card" id="stepcard">
+    <div class="step-hdr" id="stephdr"></div>
+    <div class="step-body" id="stepbody"></div>
+    <div class="step-footer">
+      <button class="btn btn-outline" id="btnprev" onclick="goTo(cur-1)">← Previous</button>
+      <div class="dots" id="dots"></div>
+      <button class="btn btn-blue" id="btnnext" onclick="goTo(cur+1)">Next →</button>
     </div>
-    <div class="bwrap">
-      <div id="p-idx"></div>
-      <div id="p-tab" style="display:none"></div>
-      <div id="p-walk" style="display:none"></div>
+  </div>
+
+  <!-- BOOK SIMULATION -->
+  <div class="card">
+    <div class="step-hdr" style="background:linear-gradient(to right,var(--slate800),var(--slate700))">
+      <span class="step-hdr-icon">📚</span>
+      <div>
+        <div class="step-hdr-label">Reference tool</div>
+        <div class="step-hdr-title">ICD-10-CM Book Simulation</div>
+      </div>
     </div>
-  </section>
-  <div class="sdiv"><span>Walkthrough simulator</span></div>
-  <section>
-    <div class="slabel">Part 3 — Pick a code, then watch the full lookup</div>
-    <p style="font-size:14px;color:var(--text2);margin-bottom:1.25rem;line-height:1.6">Choose what you think is the correct code, then step through every move a real coder makes — and see how your choice compares.</p>
-    <div class="spick" id="sim-picker"></div>
-    <div class="card" id="sim-card"><div class="card-body" id="sim-body"></div></div>
-  </section>
+    <div class="book-tabs">
+      <button class="book-tab" id="bt-idx" onclick="showBook('idx')">📖 Alphabetic Index</button>
+      <button class="book-tab" id="bt-tab" onclick="showBook('tab')">📋 Tabular List</button>
+      <button class="book-tab active" id="bt-walk" onclick="showBook('walk')">🔍 Full Walkthrough</button>
+    </div>
+    <div id="bookpane"></div>
+  </div>
+
+  <!-- PART 3 -->
+  <div class="card">
+    <div class="step-hdr" style="background:linear-gradient(to right,var(--slate800),var(--slate700))">
+      <span class="step-hdr-icon">🎯</span>
+      <div>
+        <div class="step-hdr-label">Advanced practice</div>
+        <div class="step-hdr-title">Walkthrough Simulator</div>
+      </div>
+    </div>
+    <div style="padding:1.5rem">
+      <p style="margin-bottom:1rem">Pick a code first, then step through the complete lookup, and see how your choice compares to the correct path.</p>
+      <div class="spick-row" id="smpicker"></div>
+      <div id="smbody"></div>
+    </div>
+  </div>
 </main>
+
+<footer>ICD-10 Interactive Learning Tool &nbsp;•&nbsp; For educational purposes only &nbsp;•&nbsp; Created by Hilary Homaii</footer>
+
 <script>
+/* ═══ STEP DATA ══════════════════════════════════════════ */
 const STEPS=[
-  {l:'What is ICD-10?',i:'📘',s:'What is ICD...'},
-  {l:'The Two Volumes',i:'📚',s:'The Two Vol...'},
-  {l:'Anatomy of a Code',i:'🔬',s:'Anatomy of...'},
-  {l:'Alphabetic Index',i:'🔤',s:'Alphabetic...'},
+  {l:'What is ICD-10?',i:'📘',s:'What is ICD…'},
+  {l:'The Two Volumes',i:'📚',s:'The Two Vol…'},
+  {l:'Anatomy of a Code',i:'🔬',s:'Anatomy of…'},
+  {l:'Alphabetic Index',i:'🔤',s:'Alphabetic…'},
   {l:'Tabular List',i:'📋',s:'Tabular List'},
   {l:'Build a Code',i:'🛠️',s:'Build a Code'},
-  {l:'Sort the Steps',i:'🎯',s:'Sort the St...'},
+  {l:'Sort the Steps',i:'🔀',s:'Sort the St…'},
   {l:'Quick Quiz',i:'❓',s:'Quick Quiz'},
-  {l:'Practice Case',i:'🩺',s:'Practice Ca...'},
+  {l:'Practice Case',i:'🏥',s:'Practice Ca…'},
   {l:'Results',i:'🏆',s:'Results'},
 ];
 let cur=0,qa=Array(4).fill(null),pa=false;
+let build={cat:null,etio:null,site:null,enc:null};
 const CO=['Identify the main term','Look in Alphabetic index','Check cross-references','Find code in Tabular list','Verify all characters','Assign the final code'];
 let dorder=shuf([...CO]);
 const QUIZ=[
   {q:'Which volume do you consult FIRST when looking up a diagnosis?',o:['Tabular list (Vol 1)','Alphabetic index (Vol 2)','Vol 3 — procedure codes','The ICD-9 book'],a:1,e:'Always start with the Alphabetic index to find candidate codes, then verify in the Tabular list. Never code directly from the index!'},
-  {q:'In the code J18.9, what does the letter "J" represent?',o:['Severity','Body system / chapter','Extension character','Etiology'],a:1,e:'"J" is the category letter — it tells you the body system. J = Diseases of the respiratory system.'},
-  {q:'A code shows "7th character required." What happens if you omit it?',o:['The claim processes normally','It defaults to "A" automatically','The claim is invalid / rejected','The coder may leave it blank'],a:2,e:'If a 7th character is required, it must be present. Claims missing required characters will be rejected by payers.'},
-  {q:'What does Excludes1 mean in the Tabular list?',o:['Code both conditions together','The two codes can never be coded together','Code the secondary condition only','It is an optional exclusion note'],a:1,e:'Excludes1 means the two conditions cannot be coded together on the same claim — they are mutually exclusive.'},
+  {q:'In the code J18.9, what does the letter "J" represent?',o:['Severity','Body system / chapter','Extension character','Etiology'],a:1,e:'"J" is the category letter — tells you the body system. J = Diseases of the respiratory system.'},
+  {q:'A code requires a 7th character. What happens if you omit it?',o:['The claim processes normally','It defaults to "A" automatically','The claim is invalid / rejected','The coder may leave it blank'],a:2,e:'If a 7th character is required, it must be present. Claims missing required characters are rejected by payers.'},
+  {q:'What does Excludes1 mean in the Tabular list?',o:['Code both conditions together','The two codes can NEVER be coded together','Code the secondary condition only','It is an optional exclusion note'],a:1,e:'Excludes1 = the two conditions are mutually exclusive and cannot appear on the same claim together.'},
 ];
 function shuf(a){return a.sort(()=>Math.random()-.5)}
 
+/* ═══ RENDER PART 1 ════════════════════════════════════ */
 function renderP1(){
-  document.getElementById('tabbar').innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;flex-wrap:wrap;gap:8px"><div class="tab-bar" style="flex:1">${STEPS.map((s,i)=>`<div class="titem ${i<cur?'done':i===cur?'active':''}" onclick="goTo(${i})" title="${s.l}"><span class="ticon">${s.i}</span><span class="tlabel">${s.s}</span></div>`).join('')}</div><div class="sbadge">Step <strong>${cur+1}</strong>/${STEPS.length}</div></div>`;
+  // badge
+  document.getElementById('hbadge').textContent=`Step ${cur+1}/10`;
+  // tab nav
+  document.getElementById('tabnav').innerHTML=STEPS.map((s,i)=>{
+    const cls=i<cur?'tdone':i===cur?'tactive':'tfuture';
+    return`<button class="tnav-btn ${cls}" onclick="goTo(${i})" title="${s.l}"><span class="ti">${s.i}</span><span class="tl">${s.s}</span></button>`;
+  }).join('');
+  // step header
   const s=STEPS[cur];
-  document.getElementById('sc1').innerHTML=`<div class="shbar"><span class="shicon">${s.i}</span><div><div class="shnum">Step ${cur+1} of ${STEPS.length}</div><div class="shtitle">${s.l}</div></div></div>${buildBody(cur)}`;
+  document.getElementById('stephdr').innerHTML=`<span class="step-hdr-icon">${s.i}</span><div><div class="step-hdr-label">Step ${cur+1} of ${STEPS.length}</div><div class="step-hdr-title">${s.l}</div></div>`;
+  // dots
+  document.getElementById('dots').innerHTML=STEPS.map((_,i)=>`<div class="dot ${i<cur?'done':i===cur?'active':'future'}"></div>`).join('');
+  // prev/next buttons
+  document.getElementById('btnprev').disabled=cur===0;
+  document.getElementById('btnnext').textContent=cur===STEPS.length-1?'Finish':'Next →';
+  // body
+  document.getElementById('stepbody').innerHTML=buildBody(cur);
   attachDE();
 }
 
 function buildBody(idx){
   const id=STEPS[idx].l;
-  const bk=idx>0?`<button onclick="goTo(${idx-1})">← Back</button>`:'';
-  const nx=`<button class="primary" onclick="goTo(${idx+1})" style="margin-left:auto">Next step →</button>`;
-  let b='',n='';
+  if(id==='What is ICD-10?') return`
+    <div class="space-y">
+    <p>ICD-10 stands for the <strong>International Classification of Diseases, 10th Revision</strong>. It is the universal language coders use to translate medical diagnoses into alphanumeric codes.</p>
+    <div class="bgfx">
+      <div class="bgfx-s" style="background:#eff6ff"><div class="bgfx-si">📋</div><div class="bgfx-sl">Diagnoses</div><div class="bgfx-sd">ICD-10-CM</div></div>
+      <div class="bgfx-s" style="background:#faf5ff"><div class="bgfx-si">🔧</div><div class="bgfx-sl">Procedures</div><div class="bgfx-sd">ICD-10-PCS</div></div>
+      <div class="bgfx-s" style="background:#f0fdf4"><div class="bgfx-si">🌍</div><div class="bgfx-sl">Used in</div><div class="bgfx-sd">30+ countries</div></div>
+    </div>
+    <div class="tip"><strong>💡 Tip:</strong> Think of ICD-10 as a universal translator — every disease, injury, or condition has its own unique address code.</div>
+    </div>`;
 
-  if(id==='What is ICD-10?'){
-    b=`<p style="margin-bottom:.85rem;color:var(--text2)">ICD-10 stands for the <strong style="color:var(--text)">International Classification of Diseases, 10th Revision</strong>. It's the universal language coders use to translate diagnoses into codes that insurers, hospitals, and governments understand.</p>
-    <div class="bgfx"><div class="bgfx-s" style="background:var(--aglow);border-color:rgba(74,158,255,.2)"><div class="bgfx-si">📋</div><div class="bgfx-sl">Diagnoses</div><div class="bgfx-sd">ICD-10-CM<br>Clinical Modification</div></div><div class="bgfx-s" style="background:var(--pbg);border-color:rgba(167,139,250,.2)"><div class="bgfx-si">🔧</div><div class="bgfx-sl">Procedures</div><div class="bgfx-sd">ICD-10-PCS<br>Proc. Coding Sys.</div></div><div class="bgfx-s" style="background:var(--gbg);border-color:rgba(52,211,153,.2)"><div class="bgfx-si">🌍</div><div class="bgfx-sl">Used in</div><div class="bgfx-sd">30+ countries<br>US adopted 2015</div></div></div>
-    <div class="note-box nb-tip">💡 Think of ICD-10 as a <em>universal translator</em> — every disease, injury, or condition has its own unique address code.</div>`;
-    n=`<div class="nav">${bk}${nx}</div>`;
-  }
-  else if(id==='The Two Volumes'){
-    b=`<p style="margin-bottom:1rem;color:var(--text2)">The ICD-10-CM book has two major sections you flip between every time you code.</p>
-    <div class="card" style="margin-bottom:.75rem;border-left:3px solid var(--accent)"><div class="card-body" style="padding:.9rem 1.1rem"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><span style="font-family:var(--mono);font-size:11px;background:var(--aglow);color:var(--accent);padding:3px 10px;border-radius:20px;border:1px solid rgba(74,158,255,.3)">Volume 1</span><strong>Tabular List</strong></div><p style="font-size:13.5px;color:var(--text2)">Codes arranged <strong style="color:var(--text)">numerically</strong> (A00–Z99). Contains instructional notes, includes/excludes, extensions. <em>Never code from here first!</em></p></div></div>
-    <div class="card" style="border-left:3px solid var(--purple)"><div class="card-body" style="padding:.9rem 1.1rem"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><span style="font-family:var(--mono);font-size:11px;background:var(--pbg);color:var(--purple);padding:3px 10px;border-radius:20px;border:1px solid rgba(167,139,250,.3)">Volume 2</span><strong>Alphabetic Index</strong></div><p style="font-size:13.5px;color:var(--text2)">Conditions listed <strong style="color:var(--text)">alphabetically</strong> by main term. Your starting point every time.</p></div></div>
-    <div class="note-box nb-tip" style="margin-top:.75rem">Golden rule: <strong>Always start in the Index, always verify in the Tabular.</strong></div>`;
-    n=`<div class="nav">${bk}${nx}</div>`;
-  }
-  else if(id==='Anatomy of a Code'){
-    b=`<p style="margin-bottom:.75rem;color:var(--text2)">Every code follows a predictable structure. Let's dissect <strong style="color:var(--text)">S52.501A</strong> — a displaced fracture of the radius.</p>
-    <div class="codebox">S52.501A</div>
-    <div class="breakdown">${[{c:'S',cl:'cc-cat',l:'Category'},{c:'5',cl:'cc-etio',l:'Etiology'},{c:'2',cl:'cc-etio',l:''},{c:'.',cl:'cc-dot',l:'Dot'},{c:'5',cl:'cc-body',l:'Body site'},{c:'0',cl:'cc-body',l:''},{c:'1',cl:'cc-sev',l:'Laterality'},{c:'A',cl:'cc-ext',l:'7th char'}].map(x=>`<div class="cpart"><div class="cchar ${x.cl}">${x.c}</div><div class="clabel">${x.l}</div></div>`).join('')}</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:.5rem">
-      <div style="background:var(--aglow);border:1px solid rgba(74,158,255,.2);border-radius:var(--rs);padding:6px 10px;font-size:13px;color:var(--accent)">S = Injuries chapter</div>
-      <div style="background:var(--pbg);border:1px solid rgba(167,139,250,.2);border-radius:var(--rs);padding:6px 10px;font-size:13px;color:var(--purple)">52 = Radius fracture</div>
-      <div style="background:var(--gbg);border:1px solid rgba(52,211,153,.2);border-radius:var(--rs);padding:6px 10px;font-size:13px;color:var(--green)">.501 = site + type</div>
-      <div style="background:var(--rbg);border:1px solid rgba(248,113,113,.2);border-radius:var(--rs);padding:6px 10px;font-size:13px;color:var(--red)">A = initial encounter</div>
+  if(id==='The Two Volumes') return`
+    <div class="space-y">
+    <p>The ICD-10-CM book has two major sections you flip between every time you code.</p>
+    <div class="scard" style="border-left:3px solid var(--blue500)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="badge badge-blue">Volume 1</span><strong>Tabular List</strong></div>
+      <p style="font-size:13.5px">Codes arranged <strong>numerically</strong> (A00–Z99). Contains instructional notes, includes/excludes, extensions. <em>Never code from here first!</em></p>
     </div>
-    <div class="note-box nb-tip" style="margin-top:.75rem">7th character: <strong>A</strong> = initial · <strong>D</strong> = subsequent · <strong>S</strong> = sequela</div>`;
-    n=`<div class="nav">${bk}${nx}</div>`;
-  }
-  else if(id==='Alphabetic Index'){
-    b=`<p style="margin-bottom:.75rem;color:var(--text2)">The index is organised around <strong style="color:var(--text)">main terms</strong> — usually the condition or disease, not the body part.</p>
-    <div class="card"><div class="card-body"><ul class="slist"><li><strong style="color:var(--text)">Main term</strong> — bold, flush left. E.g. "Pneumonia" not "Lung, infection of."</li><li><strong style="color:var(--text)">Subterms</strong> — indented below. E.g. "— bacterial", "— viral."</li><li><strong style="color:var(--text)">Sub-subterms</strong> — indented further. E.g. "— — due to Klebsiella."</li><li><strong style="color:var(--text)">See / see also</strong> — cross-references to another main term.</li></ul></div></div>
-    <div class="note-box nb-tip">💡 <strong>Example:</strong> "Type 2 diabetes with polyneuropathy" → Diabetes → type 2 → with polyneuropathy → E11.40</div>`;
-    n=`<div class="nav">${bk}${nx}</div>`;
-  }
-  else if(id==='Tabular List'){
-    b=`<p style="margin-bottom:.75rem;color:var(--text2)">Once you have a candidate code from the index, open the Tabular list and read <em>everything</em> before you finalise.</p>
-    <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:.75rem">
-      <div style="border:1px solid rgba(74,158,255,.2);border-left:3px solid var(--accent);border-radius:var(--rs);padding:.75rem 1rem;background:rgba(74,158,255,.04)"><div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:3px">Chapter level</div><p style="font-size:13px;color:var(--text2)">E.g. Chapter 10: Diseases of the respiratory system (J00–J99)</p></div>
-      <div style="border:1px solid rgba(167,139,250,.2);border-left:3px solid var(--purple);border-radius:var(--rs);padding:.75rem 1rem;background:rgba(167,139,250,.04)"><div style="font-size:13px;font-weight:600;color:var(--purple);margin-bottom:3px">Block / category notes</div><p style="font-size:13px;color:var(--text2)">Includes / Excludes1 / Excludes2 notes. Read before coding the block.</p></div>
-      <div style="border:1px solid rgba(52,211,153,.2);border-left:3px solid var(--green);border-radius:var(--rs);padding:.75rem 1rem;background:rgba(52,211,153,.04)"><div style="font-size:13px;font-weight:600;color:var(--green);margin-bottom:3px">Code-level notes</div><p style="font-size:13px;color:var(--text2)">Use additional code, Code first, Code also — mandatory instructions.</p></div>
-      <div style="border:1px solid rgba(251,191,36,.2);border-left:3px solid var(--amber);border-radius:var(--rs);padding:.75rem 1rem;background:rgba(251,191,36,.04)"><div style="font-size:13px;font-weight:600;color:var(--amber);margin-bottom:3px">Extension requirements</div><p style="font-size:13px;color:var(--text2)">Dashes or bullet symbols signal required additional characters (6th, 7th).</p></div>
+    <div class="scard" style="border-left:3px solid var(--purple500)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="badge badge-purple">Volume 2</span><strong>Alphabetic Index</strong></div>
+      <p style="font-size:13.5px">Conditions listed <strong>alphabetically</strong> by main term. Your starting point every time.</p>
     </div>
-    <div class="note-box nb-tip"><strong>Excludes1 vs Excludes2:</strong> Excludes1 = NEVER coded together. Excludes2 = can co-exist; code both if documented.</div>`;
-    n=`<div class="nav">${bk}${nx}</div>`;
-  }
-  else if(id==='Build a Code'){
-    b=`<p style="margin-bottom:.75rem;color:var(--text2)">Let's look up <strong style="color:var(--text)">community-acquired pneumonia, unspecified organism</strong> together.</p>
-    <ul class="slist"><li><strong style="color:var(--text)">Identify the main term.</strong> The condition is "Pneumonia" — not "Lung."</li><li><strong style="color:var(--text)">Open the Alphabetic index.</strong> Find Pneumonia (bold). Scan for community-acquired → <span style="font-family:var(--mono);color:var(--accent)">J18.9</span>.</li><li><strong style="color:var(--text)">Cross-reference.</strong> No "See" instruction. Proceed to Tabular.</li><li><strong style="color:var(--text)">Open the Tabular list at J18.9.</strong> Read chapter, block, and category notes.</li><li><strong style="color:var(--text)">Verify characters.</strong> J18.9 is valid at 5 characters. No 7th character required.</li><li><strong style="color:var(--text)">Assign the code.</strong> <span style="font-family:var(--mono);color:var(--green);font-weight:500">J18.9</span> — Pneumonia, unspecified organism.</li></ul>
-    <div style="background:var(--dark);border:1px solid var(--border2);border-radius:var(--r);padding:1.25rem;text-align:center;margin:1rem 0"><div style="font-family:var(--mono);font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem">Assigned code</div><div style="font-family:var(--mono);font-size:32px;font-weight:500;color:var(--green);letter-spacing:.15em">J18.9</div></div>`;
-    n=`<div class="nav">${bk}${nx}</div>`;
-  }
-  else if(id==='Sort the Steps'){
-    b=`<p style="margin-bottom:1rem;color:var(--text2)">Drag each tile into the correct order. What is the right sequence for ICD-10 coding?</p>
-    <div id="dt" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1rem;min-height:48px;padding:.6rem;background:var(--dark);border-radius:var(--rs);border:1px solid var(--border)">${dorder.map((t,i)=>`<div class="dtile" draggable="true" data-val="${t}" id="tile-${i}">${t}</div>`).join('')}</div>
-    ${CO.map((_,i)=>`<div class="drow"><span class="dlabel">Step ${i+1}</span><div class="dzone" id="slot-${i}" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dropOn(event,${i})"><span id="sph-${i}" style="font-size:12px;color:var(--text3)">Drop here</span></div></div>`).join('')}
-    <div id="dfb" style="margin-top:.5rem"></div>
-    <div class="nav" style="margin-top:.75rem">${bk}<button onclick="checkD()">Check order</button><button onclick="resetD()">Reset</button><button class="primary" onclick="goTo(${idx+1})" style="margin-left:auto">Next →</button></div>`;
-  }
-  else if(id==='Quick Quiz'){
-    b=`<p style="margin-bottom:1rem;color:var(--text2)">Answer all 4 questions. Your score will show at the end.</p>
-    ${QUIZ.map((q,qi)=>{const ans=qa[qi];return`<div class="card" style="margin-bottom:.75rem"><div class="card-body" style="padding:.9rem 1.1rem"><div style="font-size:11px;font-family:var(--mono);color:var(--text3);margin-bottom:.4rem;letter-spacing:.05em">QUESTION ${qi+1}</div><p style="font-size:14.5px;font-weight:600;color:var(--text);margin-bottom:.65rem">${q.q}</p>${q.o.map((o,oi)=>{let cl='';if(ans!==null){if(oi===q.a)cl='correct';else if(oi===ans)cl='wrong';}return`<button class="qopt ${cl}" ${ans!==null?'disabled':''} onclick="ansQ(${qi},${oi})">${o}</button>`;}).join('')}${ans!==null?`<div class="fb ${ans===q.a?'correct':'wrong'}">${ans===q.a?'✓ Correct! ':'✗ Incorrect. '}${q.e}</div>`:''}</div></div>`;}).join('')}`;
-    const all=qa.every(a=>a!==null);
-    n=`<div class="nav">${bk}<button class="primary" onclick="goTo(${idx+1})" style="margin-left:auto" ${all?'':'disabled'}>Next →</button></div>`;
-  }
-  else if(id==='Practice Case'){
-    b=`<div class="spclin" style="margin-bottom:1rem"><div class="spclinl">Clinical documentation</div><p style="color:var(--text)">A 68-year-old patient presents with productive cough, fever (38.9°C), and dyspnea. Chest X-ray confirms right lower lobe consolidation. Attending physician documents: <strong>"Lobar pneumonia, bacterial — right lower lobe."</strong></p></div>
-    <p style="margin-bottom:.75rem;color:var(--text2)">What is the correct ICD-10-CM code?</p>
-    ${pa?`<button class="qopt correct" disabled>J18.1 — Lobar pneumonia, unspecified organism ✓</button><div class="fb correct">Excellent! Lobar pneumonia → Alphabetic index: Pneumonia, lobar → J18.1. No specific organism documented, so J18.1 is correct.</div><div class="nav" style="margin-top:.75rem">${bk}<button class="primary" onclick="goTo(${idx+1})" style="margin-left:auto">See results →</button></div>`:`<button class="qopt" onclick="ansP()">J18.9 — Pneumonia, unspecified</button><button class="qopt" onclick="ansP()">J18.1 — Lobar pneumonia, unspecified organism</button><button class="qopt" onclick="ansP()">J15.9 — Unspecified bacterial pneumonia</button><button class="qopt" onclick="ansP()">J22 — Unspecified acute lower respiratory infection</button><div class="nav" style="margin-top:.75rem">${bk}</div>`}`;
-  }
-  else if(id==='Results'){
+    <div class="tip"><strong>Golden rule:</strong> Always start in the Index, always verify in the Tabular.</div>
+    </div>`;
+
+  if(id==='Anatomy of a Code') return`
+    <div class="space-y">
+    <p>ICD-10-CM codes have a very specific structure. Understanding each part helps you code accurately.</p>
+    <div class="code-block">
+      <div class="code-chars">
+        <div class="cc-wrap"><span class="cc cc-blue">A</span><span class="cc-label">Category</span><span class="cc-sub">(letter)</span></div>
+        <div class="cc-wrap"><span class="cc cc-purple">09</span><span class="cc-label">Etiology / Site</span><span class="cc-sub">(2 digits)</span></div>
+        <span class="cc-dot">.</span>
+        <div class="cc-wrap"><span class="cc cc-green">0</span><span class="cc-label">Specificity</span><span class="cc-sub">(digit)</span></div>
+        <div class="cc-wrap"><span class="cc cc-amber">X</span><span class="cc-label">Extension</span><span class="cc-sub">(placeholder)</span></div>
+        <div class="cc-wrap"><span class="cc cc-red">A</span><span class="cc-label">7th Character</span><span class="cc-sub">(encounter)</span></div>
+      </div>
+      <p style="color:var(--slate400);font-size:13px">Example: <code style="font-family:var(--mono);background:var(--slate800);color:#4ade80;padding:2px 8px;border-radius:4px;font-weight:600;letter-spacing:.05em">A09.0XA</code> — Infectious gastroenteritis, initial encounter</p>
+    </div>
+    <div class="grid2">
+      <div class="scard"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span class="badge badge-slate">1st char</span><strong style="font-size:13px">Category Letter</strong></div><p style="font-size:13px">Always A–Z. Groups related conditions.</p></div>
+      <div class="scard"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span class="badge badge-slate">2nd–3rd</span><strong style="font-size:13px">Category Code</strong></div><p style="font-size:13px">Two alphanumeric characters defining the disease category.</p></div>
+      <div class="scard"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span class="badge badge-slate">After .</span><strong style="font-size:13px">Subcategory</strong></div><p style="font-size:13px">Up to 4 characters for etiology, site, severity, specificity.</p></div>
+      <div class="scard"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span class="badge badge-slate">7th char</span><strong style="font-size:13px">Extension</strong></div><p style="font-size:13px">A=initial, D=subsequent, S=sequela. Required by injuries.</p></div>
+    </div>
+    <div class="tip"><strong>💡 Tip:</strong> When a code requires a 7th character but is fewer than 6 characters long, use placeholder <code style="font-family:var(--mono);background:var(--slate800);color:#4ade80;padding:1px 6px;border-radius:4px;font-weight:600">X</code> to fill the gap.</div>
+    </div>`;
+
+  if(id==='Alphabetic Index') return`
+    <div class="space-y">
+    <p>The index is organized around <strong>main terms</strong> — usually the condition or disease, not the body part.</p>
+    <ul class="slist">
+      <li><strong>Main term</strong> — bold, flush left. E.g. "Pneumonia" not "Lung, infection of."</li>
+      <li><strong>Subterms</strong> — indented below the main term. E.g. "— bacterial", "— viral."</li>
+      <li><strong>Sub-subterms</strong> — indented further. E.g. "— — due to Klebsiella."</li>
+      <li><strong>See / see also</strong> — cross-references directing you to another main term.</li>
+    </ul>
+    <div class="tip"><strong>💡 Example:</strong> "Type 2 diabetes with polyneuropathy" → look up <em>Diabetes</em> → type 2 → with polyneuropathy → E11.40</div>
+    </div>`;
+
+  if(id==='Tabular List') return`
+    <div class="space-y">
+    <p>Once you have a candidate code from the index, open the Tabular list and read <em>everything</em> before you finalise.</p>
+    <div class="scard" style="border-left:3px solid var(--blue500)"><strong style="font-size:13px;color:var(--blue600)">Chapter level</strong><p style="font-size:13px;margin-top:3px">E.g. Chapter 10: Diseases of the respiratory system (J00–J99)</p></div>
+    <div class="scard" style="border-left:3px solid var(--purple500)"><strong style="font-size:13px;color:var(--purple600)">Block / category notes</strong><p style="font-size:13px;margin-top:3px">Includes / Excludes1 / Excludes2 notes. Read before coding the block.</p></div>
+    <div class="scard" style="border-left:3px solid var(--green500)"><strong style="font-size:13px;color:var(--green600)">Code-level notes</strong><p style="font-size:13px;margin-top:3px">Use additional code, Code first, Code also — all mandatory.</p></div>
+    <div class="scard" style="border-left:3px solid var(--amber500)"><strong style="font-size:13px;color:var(--amber600)">Extension requirements</strong><p style="font-size:13px;margin-top:3px">Dashes or bullets signal required additional characters (6th, 7th).</p></div>
+    <div class="tip"><strong>Excludes1 vs Excludes2:</strong> Excludes1 = NEVER coded together. Excludes2 = can co-exist; code both if documented.</div>
+    </div>`;
+
+  if(id==='Build a Code') return buildCodeStep();
+
+  if(id==='Sort the Steps') return`
+    <div class="space-y">
+    <p>Drag each tile into the correct order. What is the right sequence for ICD-10 coding?</p>
+    <div class="dtiles" id="dt">${dorder.map((t,i)=>`<div class="dtile" draggable="true" data-val="${t}" id="tile-${i}">${t}</div>`).join('')}</div>
+    ${CO.map((_,i)=>`<div class="drow"><span class="dlabel">Step ${i+1}</span><div class="dzone" id="slot-${i}" ondragover="ev.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dropOn(ev,${i})"><span id="sph-${i}" style="font-size:12px;color:var(--slate400)">Drop here</span></div></div>`).join('')}
+    <div id="dfb"></div>
+    <div style="display:flex;gap:8px;margin-top:.75rem"><button class="btn btn-outline" onclick="checkD()">Check order</button><button class="btn btn-outline" onclick="resetD()">Reset</button></div>
+    </div>`;
+
+  if(id==='Quick Quiz') return`
+    <div class="space-y">
+    <p>Answer all 4 questions. Your score will appear on the Results page.</p>
+    ${QUIZ.map((q,qi)=>{const ans=qa[qi];return`
+      <div class="scard">
+        <p style="font-size:11px;font-family:var(--mono);color:var(--slate400);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Question ${qi+1}</p>
+        <p style="font-size:14.5px;font-weight:600;color:var(--slate800);margin-bottom:10px">${q.q}</p>
+        ${q.o.map((o,oi)=>{let cl='';if(ans!==null){if(oi===q.a)cl='qcorrect';else if(oi===ans)cl='qwrong';}return`<button class="qopt ${cl}" ${ans!==null?'disabled':''} onclick="ansQ(${qi},${oi})">${o}</button>`;}).join('')}
+        ${ans!==null?`<div class="qfb ${ans===q.a?'correct':'wrong'}">${ans===q.a?'✓ Correct! ':'✗ Incorrect. '}${q.e}</div>`:''}
+      </div>`;}).join('')}
+    </div>`;
+
+  if(id==='Practice Case') return`
+    <div class="space-y">
+    <div style="background:var(--blue50);border:1px solid var(--blue200);border-radius:12px;padding:1rem">
+      <p style="font-weight:600;color:#1e40af;margin-bottom:6px">Physician Documents:</p>
+      <p style="font-style:italic;color:var(--slate700)">"A 68-year-old patient presents with productive cough, fever (38.9°C), and dyspnea. Chest X-ray confirms right lower lobe consolidation. Attending physician documents: Lobar pneumonia, bacterial — right lower lobe."</p>
+    </div>
+    <p style="font-weight:600">What is the correct ICD-10-CM code?</p>
+    ${pa?`
+      <button class="qopt qcorrect" disabled>J18.1 — Lobar pneumonia, unspecified organism ✓</button>
+      <div class="qfb correct">Excellent! Lobar pneumonia → Alphabetic index: Pneumonia, lobar → J18.1. No specific organism is documented, so J18.1 is the correct code.</div>
+    `:`
+      <button class="qopt" onclick="ansP()">J18.9 — Pneumonia, unspecified</button>
+      <button class="qopt" onclick="ansP()">J18.1 — Lobar pneumonia, unspecified organism</button>
+      <button class="qopt" onclick="ansP()">J15.9 — Unspecified bacterial pneumonia</button>
+      <button class="qopt" onclick="ansP()">J22 — Unspecified acute lower respiratory infection</button>
+    `}
+    </div>`;
+
+  if(id==='Results'){
     const sc=qa.filter((a,i)=>a===QUIZ[i].a).length;
     const pt=Math.round(sc/QUIZ.length*100);
     const st=pt===100?'★★★★':pt>=75?'★★★☆':pt>=50?'★★☆☆':'★☆☆☆';
-    b=`<div style="text-align:center;padding:1rem 0"><div style="font-size:36px;margin-bottom:.5rem">${st}</div><div class="sring">${sc} / ${QUIZ.length}</div><p style="color:var(--text2);margin-bottom:1.5rem">quiz questions correct</p></div>
-    <ul class="slist"><li>Start in the <strong style="color:var(--text)">Alphabetic index</strong> — never the Tabular list.</li><li>Verify every candidate code in the <strong style="color:var(--text)">Tabular list</strong> — read all notes.</li><li>Main terms are usually the <strong style="color:var(--text)">condition</strong>, not the body part.</li><li>Read <strong style="color:var(--text)">Excludes1 / Excludes2</strong> notes at every level.</li><li>Assign the <strong style="color:var(--text)">most specific code</strong> supported by documentation.</li><li>Required 6th/7th characters are <strong style="color:var(--text)">mandatory</strong> — never omit them.</li></ul>
-    <div class="nav" style="margin-top:1rem">${bk}<button onclick="goTo(0)" style="margin-left:auto">Start over</button></div>`;
+    return`<div class="space-y">
+      <div style="text-align:center;padding:1rem 0">
+        <div style="font-size:36px;margin-bottom:.5rem">${st}</div>
+        <div class="score-big">${sc} / ${QUIZ.length}</div>
+        <p style="color:var(--slate500);margin-top:.25rem">quiz questions correct</p>
+      </div>
+      <ul class="slist">
+        <li>Start in the <strong>Alphabetic index</strong> — never the Tabular list.</li>
+        <li>Verify every candidate code in the <strong>Tabular list</strong> — read all notes.</li>
+        <li>Main terms are usually the <strong>condition</strong>, not the body part.</li>
+        <li>Read <strong>Excludes1 / Excludes2</strong> notes at every level.</li>
+        <li>Assign the <strong>most specific code</strong> supported by documentation.</li>
+        <li>Required 6th/7th characters are <strong>mandatory</strong> — never omit them.</li>
+      </ul>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:.5rem">
+        <button class="btn btn-outline" onclick="goTo(0)">Start over</button>
+      </div>
+    </div>`;
   }
-  return`${b}${n}`;
+  return '';
 }
+
+/* BUILD A CODE STEP */
+function buildCodeStep(){
+  const cats=[{v:'S72',l:'S72 — Femur fracture'},{v:'S52',l:'S52 — Forearm fracture'},{v:'S82',l:'S82 — Leg fracture'}];
+  const etios=[{v:'0',l:'0 — Traumatic'},{v:'1',l:'1 — Pathological'},{v:'4',l:'4 — Stress'}];
+  const sites={S72:[{v:'0',l:'0 — Neck'},{v:'1',l:'1 — Pertrochanteric'},{v:'2',l:'2 — Subtrochanteric'}],S52:[{v:'5',l:'5 — Distal end'},{v:'3',l:'3 — Shaft'},{v:'0',l:'0 — Upper end'}],S82:[{v:'0',l:'0 — Patella'},{v:'1',l:'1 — Upper tibia'},{v:'2',l:'2 — Shaft tibia'}]};
+  const encs=[{v:'A',l:'A — Initial'},{v:'D',l:'D — Subsequent'},{v:'S',l:'S — Sequela'}];
+
+  let codeStr='???.???';let codeDesc='Select all parts above';
+  if(build.cat&&build.etio&&build.site&&build.enc){
+    codeStr=`${build.cat}.${build.etio}${build.site}${build.enc}`;
+    const catLabel=cats.find(x=>x.v===build.cat)?.l.split('—')[1].trim()||'';
+    const encLabel=encs.find(x=>x.v===build.enc)?.l.split('—')[1].trim()||'';
+    codeDesc=`${catLabel}, ${encLabel} encounter`;
+  } else if(build.cat||build.etio||build.site||build.enc){
+    const parts=[build.cat||'???','.',build.etio||'?',build.site||'?',build.enc||'?'];
+    codeStr=parts.join('');codeDesc='Keep selecting…';
+  }
+
+  const currentSites=build.cat&&sites[build.cat]?sites[build.cat]:[{v:'?',l:'Select category first'}];
+
+  return`<div class="space-y">
+    <p>Build an ICD-10 fracture code step by step by selecting each component below.</p>
+    <div class="build-section">
+      <h4>1. Category (Fracture Type)</h4>
+      <div class="choice-group">${cats.map(c=>`<button class="choice-btn ${build.cat===c.v?'picked':''}" onclick="setBuild('cat','${c.v}')">${c.l}</button>`).join('')}</div>
+    </div>
+    <div class="build-section">
+      <h4>2. Etiology</h4>
+      <div class="choice-group">${etios.map(c=>`<button class="choice-btn ${build.etio===c.v?'picked':''}" onclick="setBuild('etio','${c.v}')">${c.l}</button>`).join('')}</div>
+    </div>
+    <div class="build-section">
+      <h4>3. Site</h4>
+      <div class="choice-group">${currentSites.map(c=>`<button class="choice-btn ${build.site===c.v?'picked':''}" onclick="setBuild('site','${c.v}')" ${c.v==='?'?'disabled':''}>${c.l}</button>`).join('')}</div>
+    </div>
+    <div class="build-section">
+      <h4>4. Encounter Type</h4>
+      <div class="choice-group">${encs.map(c=>`<button class="choice-btn ${build.enc===c.v?'picked':''}" onclick="setBuild('enc','${c.v}')">${c.l}</button>`).join('')}</div>
+    </div>
+    <div class="code-result">
+      <div class="code-result-label">Your assembled code:</div>
+      <div class="code-result-code ${build.cat&&build.etio&&build.site&&build.enc?'':'pending'}">${codeStr}</div>
+      <div class="code-result-desc">${codeDesc}</div>
+    </div>
+    <div class="tip-amber"><strong>💡 Tip:</strong> In real coding, always verify this assembled code in the Tabular List to confirm it is a valid, billable code and check for any additional character requirements.</div>
+    ${build.cat&&build.etio&&build.site&&build.enc?`<div class="tip-green"><strong>✓ Code built!</strong> In practice you would now open the Tabular list, navigate to ${codeStr.split('.')[0]}, read all instructional notes, and confirm ${codeStr} is valid.</div>`:''}
+  </div>`;
+}
+
+function setBuild(key,val){build[key]=val;if(key==='cat')build.site=null;document.getElementById('stepbody').innerHTML=buildCodeStep()}
 
 function goTo(i){if(i<0||i>=STEPS.length)return;cur=i;renderP1()}
 function ansQ(qi,oi){qa[qi]=oi;renderP1()}
 function ansP(){pa=true;renderP1()}
-function attachDE(){document.querySelectorAll('.dtile').forEach(t=>{t.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',t.dataset.val))})}
+function attachDE(){document.querySelectorAll('.dtile').forEach(t=>{t.addEventListener('dragstart',e=>e.dataTransfer.setData('text',t.dataset.val))})}
 function dropOn(ev,si){
-  ev.preventDefault();const val=ev.dataTransfer.getData('text/plain');
+  ev.preventDefault();const val=ev.dataTransfer.getData('text');
   const slot=document.getElementById('slot-'+si);slot.classList.remove('over');
   const ex=document.querySelector('.dtile[data-val="'+val+'"]');if(ex)ex.remove();
   const prev=slot.querySelector('.dtile');if(prev)document.getElementById('dt').appendChild(prev);
   const ph=document.getElementById('sph-'+si);if(ph)ph.style.display='none';
   const t=document.createElement('div');t.className='dtile';t.draggable=true;t.dataset.val=val;t.textContent=val;
-  t.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',val));slot.appendChild(t);
+  t.addEventListener('dragstart',e=>e.dataTransfer.setData('text',val));slot.appendChild(t);
 }
 function checkD(){
   let c=0;CO.forEach((s,i)=>{const t=document.querySelector('#slot-'+i+' .dtile');if(t&&t.dataset.val===s)c++;});
-  document.getElementById('dfb').innerHTML=c===CO.length?`<div class="fb correct">Perfect! All 6 steps in the correct order.</div>`:`<div class="fb wrong">${c} of 6 correct. Correct: ${CO.map((s,i)=>`${i+1}. ${s}`).join(' → ')}</div>`;
+  document.getElementById('dfb').innerHTML=c===CO.length?`<div class="qfb correct" style="margin-top:.5rem">Perfect! All 6 steps in the correct order.</div>`:`<div class="qfb wrong" style="margin-top:.5rem">${c} of 6 correct. Correct order: ${CO.map((s,i)=>`${i+1}. ${s}`).join(' → ')}</div>`;
 }
 function resetD(){dorder=shuf([...CO]);renderP1()}
 
-/* PART 2 */
-function bIdx(){return`<div class="phdr">Alphabetic index · Section P · Page 342</div><div class="ppage">
+/* ═══ PART 2 BOOK ═══════════════════════════════════════ */
+function showBook(t){
+  ['idx','tab','walk'].forEach(id=>{document.getElementById('bt-'+id).classList.toggle('active',id===t)});
+  if(t==='idx')document.getElementById('bookpane').innerHTML=bIdx();
+  else if(t==='tab')document.getElementById('bookpane').innerHTML=bTab();
+  else document.getElementById('bookpane').innerHTML=bWalk();
+}
+function bIdx(){return`<div class="book-hdr">Alphabetic Index · Section P · Page 342</div><div class="book-page">
   <div class="imain">Pleurisy</div><div class="sub1">— with effusion <span class="cref">J90</span></div><div class="sub1">— tuberculous <span class="sref">see Tuberculosis, pleural</span></div>
   <div class="imain" style="margin-top:.5rem">Pleuritis <span class="sref">see Pleurisy</span></div><hr class="divider">
   <div class="imain">Pneumonia (acute) (double) (migratory) (purulent) (septic) (unresolved)</div>
-  <div class="note-box nb-inc" style="margin:.3rem 0 .5rem">Includes: bronchopneumonia NOS; hypostatic bronchopneumonia; lobar pneumonia</div>
-  <div class="note-box nb-exc" style="margin:.3rem 0 .5rem">Excludes2: aspiration pneumonia (J69.0); ventilator-associated (J95.851)</div>
+  <div class="note-inc">Includes: bronchopneumonia NOS; hypostatic bronchopneumonia; lobar pneumonia</div>
+  <div class="note-exc">Excludes2: aspiration pneumonia (J69.0); ventilator-associated (J95.851)</div>
   <div class="sub1">— adenoviral <span class="cref">J12.0</span></div><div class="sub1">— bacterial NEC <span class="cref">J15.9</span></div>
-  <div class="sub1 ihl-a">— lobar (disseminated) (double) (interstitial) <span class="cref">J18.1</span></div>
+  <div class="sub1 ihl">— lobar (disseminated) (double) (interstitial) <span class="cref">J18.1</span></div>
   <div class="sub2">— — bacterial <span class="cref">J18.1</span></div><div class="sub2">— — Streptococcal <span class="cref">J13</span></div><div class="sub2">— — Klebsiella <span class="cref">J15.0</span></div>
   <div class="sub1">— community-acquired <span class="cref">J18.9</span></div><div class="sub1">— COVID-19 <span class="cref">U07.1</span></div>
   <div class="sub1">— Mycoplasma (pneumoniae) <span class="cref">J15.7</span></div><div class="sub1">— organism, unspecified NEC <span class="cref">J18.9</span></div><div class="sub1">— viral NEC <span class="cref">J12.9</span></div>
   <hr class="divider"><div class="imain">Pneumonitis <span class="sref">see also Pneumonia</span></div><div class="sub1">— aspiration <span class="cref">J68.0</span></div>
-  <div class="note-box nb-tip" style="margin-top:1rem">💡 <strong>Coder's eye:</strong> Found "Pneumonia → lobar → bacterial" pointing to <span style="font-family:var(--mono);font-weight:500">J18.1</span>. Now verify in the Tabular list.</div>
+  <div class="tip-amber" style="margin-top:1rem"><strong>💡 Coder's eye:</strong> Found "Pneumonia → lobar → bacterial" pointing to <span style="font-family:var(--mono);font-weight:600">J18.1</span>. Now verify in the Tabular list before assigning.</div>
 </div>`}
-
-function bTab(){return`<div class="phdr">Tabular list · Chapter X: Diseases of the respiratory system (J00–J99) · Page 618</div><div class="ppage">
-  <div style="font-size:11px;color:var(--text3);margin-bottom:.5rem;font-family:var(--mono)">Block J09–J18 · Influenza and pneumonia</div>
-  <div class="note-box nb-exc" style="margin-bottom:.75rem">Excludes2 (block): aspiration pneumonia (J69.–); congenital pneumonia (P23.–)</div>
-  <div style="font-weight:600;font-size:15px;border-bottom:1px solid var(--border2);padding-bottom:6px;margin-bottom:8px;color:var(--text)">J18 &nbsp; Pneumonia, unspecified organism</div>
-  <div class="note-box nb-inc" style="margin-bottom:.5rem">Includes: bronchopneumonia NOS; hypostatic pneumonia; lobar pneumonia NOS</div>
-  <div class="note-box nb-exc">Excludes1: abscess of lung with pneumonia (J85.1)</div>
-  <div style="margin:.75rem 0 .3rem;font-size:11px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em">Subcategories:</div>
-  <div class="crow"><span class="cod">J18.0</span><span style="color:var(--text2)">Bronchopneumonia, unspecified organism</span></div>
-  <div class="crow sel"><span class="cod">J18.1</span><span style="color:var(--text)">Lobar pneumonia, unspecified organism</span></div>
-  <div class="crow"><span class="cod">J18.2</span><span style="color:var(--text2)">Hypostatic pneumonia, unspecified organism</span></div>
-  <div class="crow"><span class="cod">J18.8</span><span style="color:var(--text2)">Other pneumonia, unspecified organism</span></div>
-  <div class="crow"><span class="cod">J18.9</span><span style="color:var(--text2)">Pneumonia, unspecified organism</span></div>
-  <div style="margin-top:.9rem;border:1px solid rgba(74,158,255,.3);border-radius:var(--rs);overflow:hidden">
-    <div style="background:var(--aglow);padding:.5rem .9rem;border-bottom:1px solid rgba(74,158,255,.2)"><span style="font-family:var(--mono);font-size:16px;font-weight:500;color:var(--accent)">J18.1</span><span style="font-size:14px;font-weight:600;color:var(--text);margin-left:10px">Lobar pneumonia, unspecified organism</span></div>
-    <div style="padding:.65rem .9rem"><div class="note-box nb-inc" style="margin-bottom:.4rem">Includes: lobar (disseminated) (double) pneumonia NOS</div><p style="font-size:13px;color:var(--text2)">No 6th or 7th character required. Code is complete at 5 characters.</p><p style="font-size:13px;color:var(--text2);margin-top:.25rem">No "Code first," "Use additional code," or "Code also" instructions present.</p><div style="margin-top:.6rem;background:var(--gbg);border:1px solid rgba(52,211,153,.3);border-radius:var(--rs);padding:.5rem .8rem;font-size:13px;color:var(--green);font-weight:600">✓ Code confirmed valid. Assign J18.1.</div></div>
+function bTab(){return`<div class="book-hdr">Tabular List · Chapter X: Diseases of the respiratory system (J00–J99) · Page 618</div><div class="book-page">
+  <div style="font-size:11px;color:var(--slate400);margin-bottom:.5rem;font-family:var(--mono)">Block J09–J18 · Influenza and pneumonia</div>
+  <div class="note-exc" style="margin-bottom:.75rem">Excludes2 (block): aspiration pneumonia (J69.–); congenital pneumonia (P23.–)</div>
+  <div style="font-weight:700;font-size:15px;border-bottom:1.5px solid var(--slate200);padding-bottom:6px;margin-bottom:8px">J18 &nbsp; Pneumonia, unspecified organism</div>
+  <div class="note-inc" style="margin-bottom:.5rem">Includes: bronchopneumonia NOS; hypostatic pneumonia; lobar pneumonia NOS</div>
+  <div class="note-exc">Excludes1: abscess of lung with pneumonia (J85.1)</div>
+  <div style="margin:.75rem 0 .3rem;font-size:11px;font-weight:600;color:var(--slate400);text-transform:uppercase;letter-spacing:.05em">Subcategories:</div>
+  <div class="crow"><span class="cod">J18.0</span><span style="color:var(--slate600)">Bronchopneumonia, unspecified organism</span></div>
+  <div class="crow csel"><span class="cod">J18.1</span><span style="color:var(--slate900)">Lobar pneumonia, unspecified organism</span></div>
+  <div class="crow"><span class="cod">J18.2</span><span style="color:var(--slate600)">Hypostatic pneumonia, unspecified organism</span></div>
+  <div class="crow"><span class="cod">J18.8</span><span style="color:var(--slate600)">Other pneumonia, unspecified organism</span></div>
+  <div class="crow"><span class="cod">J18.9</span><span style="color:var(--slate600)">Pneumonia, unspecified organism</span></div>
+  <div style="margin-top:.9rem;border:1px solid var(--blue200);border-radius:8px;overflow:hidden">
+    <div style="background:var(--blue50);padding:.5rem .9rem;border-bottom:1px solid var(--blue200)"><span style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--blue600)">J18.1</span><span style="font-size:14px;font-weight:600;color:var(--slate800);margin-left:10px">Lobar pneumonia, unspecified organism</span></div>
+    <div style="padding:.65rem .9rem"><div class="note-inc" style="margin-bottom:.4rem">Includes: lobar (disseminated) (double) pneumonia NOS</div><p style="font-size:13px;color:var(--slate600)">No 6th or 7th character required. Code is complete at 5 characters.</p><div style="margin-top:.5rem;background:var(--green50);border:1px solid #bbf7d0;border-radius:6px;padding:.4rem .7rem;font-size:13px;color:var(--green700);font-weight:600">✓ Code confirmed valid. Assign J18.1.</div></div>
   </div>
 </div>`}
-
-function bWalk(){return`<div class="phdr">Full lookup walkthrough · Lobar pneumonia, bacterial</div><div class="ppage">
-  <div style="display:inline-flex;align-items:center;gap:8px;background:var(--aglow);color:var(--accent);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:500;margin-bottom:1rem;font-family:var(--mono);border:1px solid rgba(74,158,255,.3)">Diagnosis: Lobar pneumonia, bacterial</div>
+function bWalk(){return`<div class="book-hdr">Full Lookup Walkthrough · Lobar pneumonia, bacterial</div><div class="book-page">
+  <div style="display:inline-flex;align-items:center;gap:8px;background:var(--blue100);color:#1e40af;border-radius:20px;padding:4px 14px;font-size:12px;font-weight:600;margin-bottom:1rem">Diagnosis: Lobar pneumonia, bacterial</div>
   ${[
-    {n:'1',nc:'nc-b',h:'Identify the main term',b:`Chart says: <em>"Lobar pneumonia, bacterial — right lower lobe"</em><br>Main term = <strong style="color:var(--text)">Pneumonia</strong> (the condition). Not "lung" or "lobe."`},
-    {n:'2',nc:'nc-b',h:'Open Alphabetic index — section P',b:`Thumb to bold main term <strong style="color:var(--text)">Pneumonia</strong>. Read the indented subterms:<div class="imock" style="margin-top:.4rem"><strong style="color:var(--text)">Pneumonia</strong><br><span style="padding-left:1.2rem;color:var(--text3)">— adenoviral ............. J12.0</span><br><span class="hl-a">— lobar ................... J18.1</span><span style="padding-left:2.4rem;color:var(--text3)">— — bacterial ........... J18.1</span></div><div style="font-size:12.5px;margin-top:.4rem">Candidate code: <span style="font-family:var(--mono);color:var(--accent);font-weight:500">J18.1</span></div>`},
-    {n:'3',nc:'nc-b',h:'Check for cross-references',b:`No "See" or "See also" instruction next to lobar pneumonia. Proceed directly to Tabular list.`},
-    {n:'4',nc:'nc-a',h:'Open Tabular list at J18.1',b:`<div class="tmock"><div style="font-weight:600;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:4px;margin-bottom:6px">J18 — Pneumonia, unspecified organism</div><div class="note-box nb-inc" style="font-size:12px;margin:.3rem 0">Includes: lobar pneumonia NOS</div><div class="hl-b" style="padding:3px 6px;font-family:var(--mono);font-size:12.5px;font-weight:500">J18.1 — Lobar pneumonia, unspecified organism ✓</div></div>`},
-    {n:'5',nc:'nc-g',h:'Confirm specificity',b:`J18.1 matches the documentation perfectly. "Right lower lobe" — no separate laterality character exists for pneumonia codes.`},
-    {n:'6',nc:'nc-g',h:'Assign the final code',b:`<div style="text-align:center;padding:.75rem 0"><div style="font-family:var(--mono);font-size:32px;font-weight:500;color:var(--green);letter-spacing:.1em">J18.1</div><div style="font-size:13px;color:var(--text2);margin-top:4px">Lobar pneumonia, unspecified organism</div><div style="margin-top:.65rem;display:flex;gap:7px;flex-wrap:wrap;justify-content:center"><span style="background:var(--gbg);color:var(--green);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:500;font-family:var(--mono)">Valid code</span><span style="background:var(--aglow);color:var(--accent);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:500;font-family:var(--mono)">5 characters — complete</span></div></div>`},
-  ].map(s=>`<div class="wstep"><div class="wshdr"><span class="nc ${s.nc}">${s.n}</span>${s.h}</div><div class="wsbody">${s.b}</div></div>`).join('')}
+    {n:'1',nc:'wnc-b',h:'Identify the main term',b:`Chart says: <em>"Lobar pneumonia, bacterial — right lower lobe"</em><br>Main term = <strong>Pneumonia</strong> (the condition, not "lung" or "lobe").`},
+    {n:'2',nc:'wnc-b',h:'Open Alphabetic index — section P',b:`Find bold main term <strong>Pneumonia</strong>. Read indented subterms:<div class="imock"><strong>Pneumonia</strong><br><span style="padding-left:1.2rem;color:var(--slate400)">— adenoviral ............. J12.0</span><br><span class="mhl-a">— lobar ................... J18.1</span><span style="padding-left:2.4rem;color:var(--slate400)">— — bacterial .......... J18.1</span></div><p style="font-size:12.5px;margin-top:.35rem">Candidate code: <span style="font-family:var(--mono);color:var(--blue600);font-weight:600">J18.1</span></p>`},
+    {n:'3',nc:'wnc-b',h:'Check for cross-references',b:`No "See" or "See also" instruction next to lobar pneumonia. Proceed directly to Tabular list.`},
+    {n:'4',nc:'wnc-a',h:'Open Tabular list at J18.1',b:`<div class="tmock"><div style="font-weight:600;border-bottom:1px solid var(--slate200);padding-bottom:4px;margin-bottom:6px">J18 — Pneumonia, unspecified organism</div><div class="note-inc" style="font-size:12px;margin:.3rem 0">Includes: lobar pneumonia NOS</div><div class="mhl-b" style="padding:3px 6px;font-family:var(--mono);font-size:12.5px;font-weight:600">J18.1 — Lobar pneumonia, unspecified organism ✓</div></div>`},
+    {n:'5',nc:'wnc-g',h:'Confirm specificity',b:`J18.1 matches the documentation. "Right lower lobe" — no separate laterality character exists for pneumonia codes.`},
+    {n:'6',nc:'wnc-g',h:'Assign the final code',b:`<div style="text-align:center;padding:.75rem 0"><div style="font-family:var(--mono);font-size:32px;font-weight:700;color:var(--blue600);letter-spacing:.1em">J18.1</div><div style="font-size:13px;color:var(--slate500);margin-top:3px">Lobar pneumonia, unspecified organism</div><div style="margin-top:.65rem;display:flex;gap:7px;flex-wrap:wrap;justify-content:center"><span class="badge badge-green">Valid code</span><span class="badge badge-blue">5 characters — complete</span><span class="badge badge-green">No extensions required</span></div></div>`},
+  ].map(s=>`<div class="wstep"><div class="wshdr"><span class="wnc ${s.nc}">${s.n}</span>${s.h}</div><div class="wsbody">${s.b}</div></div>`).join('')}
 </div>`}
 
-function showTab(t){['idx','tab','walk'].forEach(id=>{document.getElementById('p-'+id).style.display=id===t?'block':'none';document.getElementById('bt-'+id).classList.toggle('active',id===t)})}
-
-/* PART 3 */
+/* ═══ PART 3 SIMULATOR ══════════════════════════════════ */
 const SIMS=[
-  {id:'pn',title:'Lobar pneumonia',diff:'Beginner',
+  {title:'Lobar pneumonia',diff:'Beginner',
     clin:'A 68-year-old patient presents with productive cough, fever 38.9°C, and dyspnea. Chest X-ray shows right lower lobe consolidation. Physician documents: <strong>"Lobar pneumonia, bacterial."</strong>',
     opts:[{c:'J18.9',d:'Pneumonia, unspecified organism'},{c:'J18.1',d:'Lobar pneumonia, unspecified organism',ok:true},{c:'J15.9',d:'Unspecified bacterial pneumonia'},{c:'J12.9',d:'Viral pneumonia, unspecified'}],
     steps:[
-      {ph:'index',t:'Step 1 — Identify the main term',b:`Main term = <strong style="color:var(--text)">Pneumonia</strong> — the condition itself, not the body part or qualifier.`},
-      {ph:'index',t:'Step 2 — Find in Alphabetic index',b:`Find bold main term Pneumonia. Drill to subterm:<div class="imock" style="margin-top:.35rem"><strong style="color:var(--text)">Pneumonia</strong><br><span class="hl-a">— lobar .... J18.1</span><span style="padding-left:2.4rem;color:var(--text3)">— — bacterial .... J18.1</span></div><p style="margin-top:.35rem">Candidate: <span style="font-family:var(--mono);color:var(--accent)">J18.1</span></p>`},
+      {ph:'index',t:'Step 1 — Identify the main term',b:`Main term = <strong>Pneumonia</strong> — the condition itself, not the body part.`},
+      {ph:'index',t:'Step 2 — Find in Alphabetic index',b:`<div class="imock"><strong>Pneumonia</strong><br><span class="mhl-a">— lobar .... J18.1</span><span style="padding-left:2.4rem;color:var(--slate400)">— — bacterial .... J18.1</span></div><p style="margin-top:.35rem;font-size:13px">Candidate: <span style="font-family:var(--mono);color:var(--blue600);font-weight:600">J18.1</span></p>`},
       {ph:'index',t:'Step 3 — Check cross-references',b:`No "See" or "See also" instruction. Proceed to Tabular list.`},
-      {ph:'tabular',t:'Step 4 — Verify in Tabular list',b:`<div class="tmock"><div class="hl-b" style="padding:3px 6px;font-family:var(--mono);font-size:12.5px">J18.1 — Lobar pneumonia, unspecified organism ✓</div><div style="font-size:12px;color:var(--text3);margin-top:5px">No "Code first" or "Use additional" instruction. 5 characters — complete.</div></div>`},
-      {ph:'assign',t:'Step 5 — Assign the final code',b:`Documentation fully supports J18.1. "Lobar" rules out J18.9. No specific organism means J15.9 is wrong.`,fin:'J18.1'},
+      {ph:'tabular',t:'Step 4 — Verify in Tabular list',b:`<div class="tmock"><div class="mhl-b" style="padding:3px 6px;font-family:var(--mono);font-size:12.5px;font-weight:600">J18.1 — Lobar pneumonia, unspecified organism ✓</div><p style="font-size:12px;color:var(--slate500);margin-top:5px">No "Code first" or "Use additional" instruction. 5 characters — complete.</p></div>`},
+      {ph:'assign',t:'Step 5 — Assign the final code',b:`Documentation fully supports J18.1. "Lobar" rules out J18.9. No specific organism rules out J15.9.`,fin:'J18.1'},
     ],
-    wr:{'J18.9':'Too vague — physician specifically documented "lobar."','J15.9':'Used when bacterial cause documented but no specific organism. "Lobar" is the key qualifier here.','J12.9':'Viral — documentation says bacterial. Wrong etiology entirely.'}
+    wr:{'J18.9':'Too vague — physician documented "lobar."','J15.9':'Used when bacterial cause is documented but no specific organism. "Lobar" is the key qualifier here.','J12.9':'Viral — documentation says bacterial. Wrong etiology.'}
   },
-  {id:'ti',title:'Tibia shaft fracture',diff:'Intermediate',
+  {title:'Tibia shaft fracture',diff:'Intermediate',
     clin:'A 45-year-old male fell from a ladder. Physician documents: <strong>"Closed fracture of the shaft of the right tibia, initial encounter."</strong>',
-    opts:[{c:'S82.201A',d:'Unspecified fracture of shaft of right tibia, initial encounter',ok:true},{c:'S82.201D',d:'Subsequent encounter for closed fracture'},{c:'S82.101A',d:'Unspecified fracture of upper end of right tibia, initial encounter'},{c:'S82.901A',d:'Unspecified fracture of unspecified lower leg, initial encounter'}],
+    opts:[{c:'S82.201A',d:'Unspecified fracture of shaft of right tibia, initial encounter',ok:true},{c:'S82.201D',d:'Subsequent encounter for closed fracture'},{c:'S82.101A',d:'Upper end of right tibia, initial encounter'},{c:'S82.901A',d:'Unspecified lower leg, initial encounter'}],
     steps:[
-      {ph:'index',t:'Step 1 — Identify the main term',b:`Main term = <strong style="color:var(--text)">Fracture, traumatic</strong>. You cannot just look up "tibia" — the index is organized by injury type first.`},
-      {ph:'index',t:'Step 2 — Navigate the index',b:`<div class="imock"><strong style="color:var(--text)">Fracture, traumatic</strong><br><span class="hl-a">— tibia (shaft) .... S82.20–</span><span class="hl-a" style="padding-left:2.4rem">— — right .... S82.201–</span></div><p style="margin-top:.35rem">Dash = 7th character still needed. Do NOT stop here.</p>`},
-      {ph:'tabular',t:'Step 3 — Tabular list for 7th character',b:`<div class="tmock"><div class="hl-b" style="padding:3px 6px;font-family:var(--mono);font-size:12.5px">A — initial encounter for closed fracture ✓</div><div style="padding:2px 6px;font-family:var(--mono);font-size:12.5px;color:var(--text3)">D — subsequent encounter</div><div style="padding:2px 6px;font-family:var(--mono);font-size:12.5px;color:var(--text3)">S — sequela</div></div><p style="margin-top:.35rem">Physician said "initial encounter" → 7th character = <strong style="color:var(--text)">A</strong></p>`},
+      {ph:'index',t:'Step 1 — Identify the main term',b:`Main term = <strong>Fracture, traumatic</strong>. You cannot look up "tibia" alone — the index is organized by injury type.`},
+      {ph:'index',t:'Step 2 — Navigate the index',b:`<div class="imock"><strong>Fracture, traumatic</strong><br><span class="mhl-a">— tibia (shaft) .... S82.20–</span><span class="mhl-a" style="padding-left:2.4rem">— — right .... S82.201–</span></div><p style="font-size:13px;margin-top:.35rem">Dash = 7th character still needed!</p>`},
+      {ph:'tabular',t:'Step 3 — Tabular list for 7th character',b:`<div class="tmock"><div class="mhl-b" style="padding:3px 6px;font-family:var(--mono);font-size:12.5px;font-weight:600">A — initial encounter for closed fracture ✓</div><div style="padding:2px 6px;font-family:var(--mono);font-size:12.5px;color:var(--slate400)">D — subsequent encounter</div><div style="padding:2px 6px;font-family:var(--mono);font-size:12.5px;color:var(--slate400)">S — sequela</div></div><p style="font-size:13px;margin-top:.35rem">Physician said "initial encounter" → 7th character = <strong>A</strong></p>`},
       {ph:'assign',t:'Step 4 — Assign the final code',b:`All elements captured: shaft (.2), right (01), initial + closed (A).`,fin:'S82.201A'},
     ],
-    wr:{'S82.201D':'"D" = subsequent encounter — returning for follow-up, not first visit.','S82.101A':'.1 = upper end of tibia. Shaft is .2. Wrong anatomic location.','S82.901A':'Unspecified lower leg — too vague when documentation clearly says "tibia shaft."'}
+    wr:{'S82.201D':'"D" = subsequent encounter — returning for follow-up.','S82.101A':'.1 = upper end of tibia. Shaft is .2.','S82.901A':'Too vague — documentation clearly says "tibia shaft."'}
   },
-  {id:'db',title:'Type 2 diabetes + CKD',diff:'Advanced',
+  {title:'Type 2 diabetes + CKD',diff:'Advanced',
     clin:'A 60-year-old woman with Type 2 diabetes returns for follow-up. Labs show eGFR of 38. Physician documents: <strong>"Type 2 diabetes mellitus with diabetic chronic kidney disease, stage 3."</strong>',
-    opts:[{c:'E11.9',d:'Type 2 diabetes mellitus without complications'},{c:'E11.65',d:'Type 2 diabetes mellitus with hyperglycemia'},{c:'E11.22 + N18.3',d:'Type 2 DM with diabetic CKD stage 3 + CKD stage 3',ok:true},{c:'E11.29',d:'Type 2 DM with other diabetic kidney complication'}],
+    opts:[{c:'E11.9',d:'Type 2 DM without complications'},{c:'E11.65',d:'Type 2 DM with hyperglycemia'},{c:'E11.22 + N18.3',d:'Type 2 DM with diabetic CKD stage 3 + CKD stage 3',ok:true},{c:'E11.29',d:'Type 2 DM with other diabetic kidney complication'}],
     steps:[
-      {ph:'index',t:'Step 1 — Main term + combination codes',b:`Main term = <strong style="color:var(--text)">Diabetes, type 2</strong>. ICD-10 uses combination codes that capture both the diabetes AND its complication together.`},
-      {ph:'index',t:'Step 2 — Navigate the index',b:`<div class="imock"><strong style="color:var(--text)">Diabetes, type 2</strong><br><span style="padding-left:1.2rem;color:var(--text3)">— with hyperglycemia .... E11.65</span><br><span class="hl-a" style="padding-left:1.2rem">— with CKD stage 3 .... E11.22</span></div><p style="margin-top:.35rem">Candidate: <span style="font-family:var(--mono);color:var(--accent)">E11.22</span></p>`},
-      {ph:'tabular',t:'Step 3 — Mandatory second code',b:`<div class="tmock"><div style="font-weight:600;color:var(--text);margin-bottom:5px">E11.22 — Type 2 DM with diabetic CKD stage 3</div><div class="note-box nb-info" style="font-size:12px">Use additional code to identify stage of CKD (N18.1–N18.6)</div></div><p style="margin-top:.35rem">eGFR 38 = CKD stage 3 → mandatory second code: <span style="font-family:var(--mono);color:var(--accent)">N18.3</span></p>`},
+      {ph:'index',t:'Step 1 — Main term + combination codes',b:`Main term = <strong>Diabetes, type 2</strong>. ICD-10 uses combination codes that capture both the diabetes AND its complication together.`},
+      {ph:'index',t:'Step 2 — Navigate the index',b:`<div class="imock"><strong>Diabetes, type 2</strong><br><span style="padding-left:1.2rem;color:var(--slate400)">— with hyperglycemia .... E11.65</span><br><span class="mhl-a" style="padding-left:1.2rem">— with CKD stage 3 .... E11.22</span></div><p style="font-size:13px;margin-top:.35rem">Candidate: <span style="font-family:var(--mono);color:var(--blue600);font-weight:600">E11.22</span></p>`},
+      {ph:'tabular',t:'Step 3 — Tabular list — mandatory second code',b:`<div class="tmock"><div style="font-weight:600;margin-bottom:5px">E11.22 — Type 2 DM with diabetic CKD stage 3</div><div class="note-inc" style="font-size:12px">Use additional code to identify stage of CKD (N18.1–N18.6)</div></div><p style="font-size:13px;margin-top:.35rem">eGFR 38 = CKD stage 3 → mandatory second code: <span style="font-family:var(--mono);color:var(--blue600);font-weight:600">N18.3</span></p>`},
       {ph:'assign',t:'Step 4 — Assign both codes',b:`Two codes required. E11.22 first (diabetes drives encounter), N18.3 second (CKD stage).`,fin:'E11.22 + N18.3'},
     ],
-    wr:{'E11.9':'Without complications — CKD is clearly documented as a complication.','E11.65':'Hyperglycemia — wrong complication category entirely.','E11.29':'"Other" kidney complication — only used when no specific code exists. CKD stage 3 has E11.22.'}
+    wr:{'E11.9':'Without complications — CKD is clearly documented as a complication.','E11.65':'Hyperglycemia — wrong complication category.','E11.29':'"Other" — only used when no specific code exists. CKD stage 3 has E11.22.'}
   }
 ];
-
 let sCI=0,sPh='pick',sPk=null,sWS=0,sDone=Array(SIMS.length).fill(false);
 
 function renderSim(){
-  document.getElementById('sim-picker').innerHTML=SIMS.map((s,i)=>`<button class="spbtn ${i===sCI?'active':sDone[i]?'done':''}" onclick="sGo(${i})">${i+1}. ${s.title}</button>`).join('');
+  document.getElementById('smpicker').innerHTML=SIMS.map((s,i)=>`<button class="spick-btn ${i===sCI?'sactive':sDone[i]?'sdone':''}" onclick="sGo(${i})">${i+1}. ${s.title}</button>`).join('');
   const sc=SIMS[sCI];
   const ph=[{id:'pick',l:'1. Pick a code'},{id:'walk',l:'2. Step-by-step'},{id:'compare',l:'3. Compare'}];
-  const phH=`<div class="phind">${ph.map(p=>{const iD=(p.id==='pick'&&(sPh==='walk'||sPh==='compare'))||(p.id==='walk'&&sPh==='compare');return`<button class="phbtn ${p.id===sPh?'active':iD?'done':''}" onclick="sPh2('${p.id}')" ${(p.id==='walk'||p.id==='compare')&&sPk===null?'disabled':''}>${p.l}</button>`;}).join('')}</div>`;
-  const bd=document.getElementById('sim-body');
+  const phH=`<div class="phind">${ph.map(p=>{const iD=(p.id==='pick'&&(sPh==='walk'||sPh==='compare'))||(p.id==='walk'&&sPh==='compare');return`<button class="phbtn ${p.id===sPh?'pactive':iD?'pdone':''}" onclick="sPh2('${p.id}')" ${(p.id==='walk'||p.id==='compare')&&sPk===null?'disabled':''}>${p.l}</button>`;}).join('')}</div>`;
+  const bd=document.getElementById('smbody');
   if(sPh==='pick')bd.innerHTML=phH+sBPick(sc);
   else if(sPh==='walk')bd.innerHTML=phH+sBWalk(sc);
-  else if(sPh==='compare')bd.innerHTML=phH+sBCmp(sc);
+  else bd.innerHTML=phH+sBCmp(sc);
 }
 
 function sBPick(sc){
-  const dc=sc.diff==='Beginner'?'var(--green)':sc.diff==='Intermediate'?'var(--amber)':'var(--red)';
-  return`<div class="spclin"><div class="spclinl">Clinical documentation</div><p style="color:var(--text)">${sc.clin}</p></div>
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px"><p style="font-size:14px;font-weight:600;color:var(--text)">What is the correct ICD-10-CM code?</p><span style="font-family:var(--mono);font-size:11px;padding:3px 12px;border-radius:20px;background:${dc}20;color:${dc};font-weight:500;border:1px solid ${dc}40">${sc.diff}</span></div>
-  <div class="pgrid">${sc.opts.map((o,oi)=>{let cl='';if(sPk!==null){if(o.ok)cl='rc';if(oi===sPk&&!o.ok)cl='sw';if(oi===sPk&&o.ok)cl='sc';}return`<button class="pcard ${cl}" ${sPk!==null?'disabled':''} onclick="sPick(${oi})"><div class="pcode">${o.c}</div><div class="pdesc">${o.d}</div></button>`;}).join('')}</div>
-  ${sPk!==null?`<div class="fb ${sc.opts[sPk].ok?'correct':'wrong'}" style="margin-bottom:.75rem">${sc.opts[sPk].ok?'✓ <strong>Correct!</strong> Now step through the walkthrough to see exactly how a coder finds this code.':'✗ <strong>Not quite.</strong> '+(sc.wr[sc.opts[sPk].c]||'')+' Correct: <span style="font-family:var(--mono);font-weight:500">'+(sc.opts.find(o=>o.ok).c)+'</span>'}</div><div class="nav"><button class="primary" onclick="sPh2('walk')" style="margin-left:auto">See step-by-step lookup →</button></div>`:''}`;
+  const dc=sc.diff==='Beginner'?'green':sc.diff==='Intermediate'?'amber':'red';
+  return`<div style="background:var(--blue50);border:1px solid var(--blue200);border-radius:10px;padding:1rem;margin-bottom:1rem"><p style="font-weight:600;color:#1e40af;margin-bottom:5px">Clinical documentation:</p><p style="font-style:italic;color:var(--slate700)">${sc.clin}</p></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:8px"><p style="font-weight:600;font-size:14px">What is the correct ICD-10-CM code?</p><span class="badge badge-${dc}">${sc.diff}</span></div>
+  <div class="pgrid">${sc.opts.map((o,oi)=>{let cl='';if(sPk!==null){if(o.ok)cl='prc';if(oi===sPk&&!o.ok)cl='psw';if(oi===sPk&&o.ok)cl='psc';}return`<button class="pcard ${cl}" ${sPk!==null?'disabled':''} onclick="sPick(${oi})"><div class="pcode">${o.c}</div><div class="pdesc">${o.d}</div></button>`;}).join('')}</div>
+  ${sPk!==null?`<div class="qfb ${sc.opts[sPk].ok?'correct':'wrong'}" style="margin-bottom:.75rem">${sc.opts[sPk].ok?'✓ <strong>Correct!</strong> Now step through the walkthrough to see exactly how a coder finds this.':'✗ <strong>Not quite.</strong> '+(sc.wr[sc.opts[sPk].c]||'')+' Correct: <span style="font-family:var(--mono);font-weight:600">'+(sc.opts.find(o=>o.ok).c)+'</span>'}</div><div style="display:flex;justify-content:flex-end"><button class="btn btn-blue" onclick="sPh2('walk')">See step-by-step lookup →</button></div>`:''}`;
 }
 
 function sBWalk(sc){
   const steps=sc.steps,step=steps[sWS],isL=sWS===steps.length-1;
-  const pc={index:'var(--accent)',tabular:'var(--amber)',assign:'var(--green)'};
-  const pl={index:'Alphabetic index',tabular:'Tabular list',assign:'Assign code'};
+  
+  const pl={index:'Alphabetic Index',tabular:'Tabular List',assign:'Assign Code'};
+  const pcol=step.ph==='index'?'var(--blue600)':step.ph==='tabular'?'var(--amber600)':'var(--green600)';
+  const pbg=step.ph==='index'?'var(--blue50)':step.ph==='tabular'?'var(--amber50)':'var(--green50)';
   return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:.85rem;flex-wrap:wrap">
-    <span style="font-family:var(--mono);font-size:11px;background:${pc[step.ph]}20;color:${pc[step.ph]};padding:3px 10px;border-radius:20px;font-weight:500;border:1px solid ${pc[step.ph]}40">${pl[step.ph]}</span>
-    <span style="font-family:var(--mono);font-size:11px;color:var(--text3)">${sWS+1} of ${steps.length}</span>
-    <div style="flex:1;height:4px;background:var(--dark);border-radius:2px;min-width:60px;border:1px solid var(--border)"><div style="width:${Math.round((sWS+1)/steps.length*100)}%;height:100%;background:var(--accent2);border-radius:2px;transition:width .3s"></div></div>
+    <span style="font-size:11px;font-weight:600;background:${pbg};color:${pcol};padding:3px 10px;border-radius:20px;border:1px solid currentColor">${pl[step.ph]}</span>
+    <span style="font-size:11px;color:var(--slate400);font-family:var(--mono)">${sWS+1} of ${steps.length}</span>
+    <div style="flex:1;height:5px;background:var(--slate200);border-radius:3px;min-width:60px;overflow:hidden"><div style="width:${Math.round((sWS+1)/steps.length*100)}%;height:100%;background:var(--blue600);border-radius:3px;transition:width .3s"></div></div>
   </div>
-  <div style="background:var(--dark);border-radius:var(--rs);padding:.9rem 1rem;margin-bottom:.85rem;border:1px solid var(--border)">
-    <div style="font-family:var(--mono);font-size:12px;font-weight:500;margin-bottom:.4rem;color:var(--text)">${step.t}</div>
-    <div style="font-size:13.5px;color:var(--text2);line-height:1.65">${step.b}</div>
-    ${step.fin?`<div style="text-align:center;margin-top:.75rem;padding:.75rem 0"><div style="font-family:var(--mono);font-size:30px;font-weight:500;color:var(--green);letter-spacing:.1em">${step.fin}</div><div style="font-size:12px;color:var(--text3);margin-top:3px">final assigned code</div></div>`:''}
+  <div style="background:var(--slate50);border:1px solid var(--slate200);border-radius:10px;padding:.9rem 1rem;margin-bottom:.85rem">
+    <div style="font-size:13px;font-weight:700;color:var(--slate800);margin-bottom:.4rem">${step.t}</div>
+    <div style="font-size:13.5px;color:var(--slate700);line-height:1.65">${step.b}</div>
+    ${step.fin?`<div style="text-align:center;margin-top:.75rem;padding:.75rem 0"><div style="font-family:var(--mono);font-size:30px;font-weight:700;color:var(--blue600);letter-spacing:.1em">${step.fin}</div><div style="font-size:12px;color:var(--slate400);margin-top:3px">final assigned code</div></div>`:''}
   </div>
-  <div style="background:var(--dark);border-radius:var(--rs);padding:.6rem .9rem;margin-bottom:.85rem;border:1px solid var(--border)">
-    <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.07em">Your pick</div>
-    ${sPk!==null?`<span style="font-family:var(--mono);font-weight:500;font-size:14px;color:${sc.opts[sPk].ok?'var(--green)':'var(--red)'}">${sc.opts[sPk].c}</span><span style="font-size:12.5px;color:var(--text2);margin-left:8px">${sc.opts[sPk].d}</span>`:'<span style="font-size:13px;color:var(--text3);font-style:italic">You skipped the pick phase</span>'}
+  <div style="background:var(--slate50);border:1px solid var(--slate200);border-radius:8px;padding:.6rem .9rem;margin-bottom:.85rem">
+    <div style="font-size:10px;font-weight:600;color:var(--slate400);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.3rem">Your pick</div>
+    ${sPk!==null?`<span style="font-family:var(--mono);font-weight:700;font-size:14px;color:${sc.opts[sPk].ok?'var(--green600)':'var(--red600)'}">${sc.opts[sPk].c}</span><span style="font-size:12.5px;color:var(--slate500);margin-left:8px">${sc.opts[sPk].d}</span>`:'<span style="font-size:13px;color:var(--slate400);font-style:italic">You skipped the pick phase</span>'}
   </div>
-  <div class="nav">
-    ${sWS>0?`<button onclick="sNav(-1)">← Back</button>`:`<button onclick="sPh2('pick')">← Pick phase</button>`}
-    ${isL?`<button class="primary" onclick="sPh2('compare')" style="margin-left:auto">See comparison →</button>`:`<button class="primary" onclick="sNav(1)" style="margin-left:auto">Next step →</button>`}
+  <div style="display:flex;gap:8px">
+    ${sWS>0?`<button class="btn btn-outline" onclick="sNav(-1)">← Back</button>`:`<button class="btn btn-outline" onclick="sPh2('pick')">← Pick phase</button>`}
+    ${isL?`<button class="btn btn-blue" onclick="sPh2('compare')" style="margin-left:auto">See comparison →</button>`:`<button class="btn btn-blue" onclick="sNav(1)" style="margin-left:auto">Next step →</button>`}
   </div>`;
 }
 
 function sBCmp(sc){
   const po=sPk!==null?sc.opts[sPk]:null;const co=sc.opts.find(o=>o.ok);const ok=po&&po.ok;
-  return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap"><div style="font-size:16px;font-weight:600;color:var(--text)">${ok?'You got it right! ✓':'Review: what went wrong'}</div>${po?`<span style="font-family:var(--mono);font-size:11px;padding:3px 10px;border-radius:20px;${ok?'background:var(--gbg);color:var(--green)':'background:var(--rbg);color:var(--red)'}">${ok?'Correct':'Incorrect'}</span>`:''}</div>
+  return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap"><div style="font-size:16px;font-weight:700;color:var(--slate800)">${ok?'You got it right! ✓':'Review: what went wrong'}</div>${po?`<span class="badge badge-${ok?'green':'red'}">${ok?'Correct':'Incorrect'}</span>`:''}</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem">
-    <div style="background:${ok?'var(--gbg)':'var(--rbg)'};border-radius:var(--rs);padding:.75rem 1rem;border:1px solid ${ok?'rgba(52,211,153,.3)':'rgba(248,113,113,.3)'}">
-      <div style="font-family:var(--mono);font-size:10px;font-weight:500;color:${ok?'var(--green)':'var(--red)'};margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.06em">Your answer</div>
-      <div style="font-family:var(--mono);font-size:18px;font-weight:500;color:${ok?'var(--green)':'var(--red)'}">${po?po.c:'—'}</div>
-      <div style="font-size:12px;color:var(--text2);margin-top:2px">${po?po.d:'No answer'}</div>
+    <div style="background:${ok?'var(--green50)':'var(--red50)'};border:1px solid ${ok?'#bbf7d0':'#fecaca'};border-radius:8px;padding:.75rem">
+      <div style="font-size:10px;font-weight:700;color:${ok?'var(--green700)':'var(--red700)'};text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem">Your answer</div>
+      <div style="font-family:var(--mono);font-size:17px;font-weight:700;color:${ok?'var(--green600)':'var(--red600)'}">${po?po.c:'—'}</div>
+      <div style="font-size:12px;color:var(--slate500);margin-top:2px">${po?po.d:'No answer'}</div>
     </div>
-    <div style="background:var(--gbg);border-radius:var(--rs);padding:.75rem 1rem;border:1px solid rgba(52,211,153,.4)">
-      <div style="font-family:var(--mono);font-size:10px;font-weight:500;color:var(--green);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.06em">Correct answer</div>
-      <div style="font-family:var(--mono);font-size:18px;font-weight:500;color:var(--green)">${co.c}</div>
-      <div style="font-size:12px;color:var(--text2);margin-top:2px">${co.d}</div>
+    <div style="background:var(--green50);border:1px solid #bbf7d0;border-radius:8px;padding:.75rem">
+      <div style="font-size:10px;font-weight:700;color:var(--green700);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem">Correct answer</div>
+      <div style="font-family:var(--mono);font-size:17px;font-weight:700;color:var(--green600)">${co.c}</div>
+      <div style="font-size:12px;color:var(--slate500);margin-top:2px">${co.d}</div>
     </div>
   </div>
-  ${po&&!ok?`<div class="note-box nb-tip" style="margin-bottom:1rem"><strong>Why your choice was off:</strong> ${sc.wr[po.c]||'Review the walkthrough steps.'}</div>`:''}
-  <div style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:.5rem">Why each wrong option fails</div>
-  ${Object.entries(sc.wr).map(([code,reason])=>`<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:.5rem;font-size:13px"><span style="font-family:var(--mono);color:var(--red);font-weight:500;min-width:90px;flex-shrink:0">${code}</span><span style="color:var(--text2)">${reason}</span></div>`).join('')}
-  <div class="nav" style="margin-top:1rem"><button onclick="sPh2('walk')">← Review walkthrough</button>${sCI<SIMS.length-1?`<button class="primary" onclick="sGo(${sCI+1})" style="margin-left:auto">Next scenario →</button>`:`<button class="primary" onclick="sGo(0)" style="margin-left:auto">Start over</button>`}</div>`;
+  ${po&&!ok?`<div class="tip-amber" style="margin-bottom:1rem"><strong>Why your choice was off:</strong> ${sc.wr[po.c]||'Review the walkthrough steps.'}</div>`:''}
+  <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--slate400);margin-bottom:.5rem">Why each wrong option fails</div>
+  ${Object.entries(sc.wr).map(([code,reason])=>`<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:.4rem;font-size:13px"><span style="font-family:var(--mono);color:var(--red600);font-weight:700;min-width:90px;flex-shrink:0">${code}</span><span style="color:var(--slate600)">${reason}</span></div>`).join('')}
+  <div style="display:flex;gap:8px;margin-top:1rem">
+    <button class="btn btn-outline" onclick="sPh2('walk')">← Review walkthrough</button>
+    ${sCI<SIMS.length-1?`<button class="btn btn-blue" onclick="sGo(${sCI+1})" style="margin-left:auto">Next scenario →</button>`:`<button class="btn btn-blue" onclick="sGo(0)" style="margin-left:auto">Start over</button>`}
+  </div>`;
 }
 
 function sPick(oi){sPk=oi;renderSim()}
 function sPh2(ph){if(ph==='compare')sDone[sCI]=true;sPh=ph;renderSim()}
 function sNav(d){sWS=Math.max(0,Math.min(SIMS[sCI].steps.length-1,sWS+d));renderSim()}
-function sGo(i){sCI=i;sPh='pick';sPk=null;sWS=0;renderSim();document.getElementById('sim-card').scrollIntoView({behavior:'smooth',block:'start'})}
+function sGo(i){sCI=i;sPh='pick';sPk=null;sWS=0;renderSim();document.getElementById('smbody').scrollIntoView({behavior:'smooth',block:'start'})}
 
 /* INIT */
-document.getElementById('p-idx').innerHTML=bIdx();
-document.getElementById('p-tab').innerHTML=bTab();
-document.getElementById('p-walk').innerHTML=bWalk();
-renderP1();renderSim();
+showBook('walk');
+renderP1();
+renderSim();
 </script>
 </body>
 </html>
